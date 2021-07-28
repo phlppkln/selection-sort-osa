@@ -1,0 +1,36 @@
+<template>
+<h1>Sortierung mittels Algorithmen</h1>
+  <p>Für uns Menschen sind Aufgaben, wie zum Beispiel das aufsteigende Sortieren von fünf Kärtchen, auf denen einstellige natürliche Zahlen aufgedruckt sind, keine große Sache. Wir übersehen die 5 Kärtchen auf einen Blick und identifizieren spontan jene mit der kleinsten Zahl – erledigt! Wir brauchen keinen Plan oder Algorithmus, um ein Problem dieser Größenordnung zu lösen. Weil wir uns vieles „im Vorübergehen“ merken und leicht unsere Lösungsstrategie anpassen können, sind wir sehr flexibel und schnell – in der Lösung kleiner Probleme.
+Ein „Computerprogramm“ benötigt schon vor Beginn der Bearbeitung einer solchen Aufgabe einen Plan, wie das Problem gelöst werden soll. Das mag bei einer geringen Zahl von Sortierobjekten sehr unökonomisch erscheinen. Ist dieser Plan aber einmal festgelegt, braucht ein Computer im Unterschied zum Menschen für 1 Million Kärtchen nicht merkbar länger als für fünf. 
+Bei der Lösung der folgenden Aufgabe sollen Sie nach Regeln vorgehen, die jenen ähneln, nach denen auch Computerprogramme arbeiten. So werden im folgenden Beispiel alle „Dinge“, die wir Menschen uns merken, mittels „Zeigern“ realisiert. Die damit verbundene Denkweise scheint uns Menschen bisweilen etwas umständlich und fremd, aber sie entspricht den besonderen Voraussetzungen der „Denkmaschine“ Computer. Hat man diese einmal verstanden, lassen sich damit viele Probleme in einer überlegenen Weise lösen, zu der wir als Menschen ohne Computer nicht in der Lage wären.
+  </p>
+<h2>
+Aber nun zur Aufgabe:</h2>
+<p>
+Vor Ihnen befindet sich eine Reihe von Karten, wobei nur deren (leere) Rückseiten zu sehen sind. Die Vorderseiten sind mit einer Zahl versehen, die sich in der Reihe in dieser Aufgabe nicht wiederholt. Die Karten sind zufällig angeordnet, und jede Karte nimmt genau eine Speicherposition ein.
+Ihre Aufgabe besteht darin, alle Karten nach der Größe ihres Zahlenwertes zu sortieren, sodass jene mit dem geringsten Wert ganz links und jene mit dem größten ganz rechts zu liegen kommt.
+</p>
+<button @click="closeStart">Start</button>
+</template>
+
+<script>
+export default {
+methods: {
+    closeStart(){
+        $emit.closeStart();
+    }
+}
+}
+</script>
+
+<style scoped>
+h1{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 40pt;
+    color: #006BAC
+}
+p{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 16pt;
+}
+</style>

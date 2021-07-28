@@ -1,50 +1,91 @@
 <template>
-<ul>
-  <li><Card :number="numbers[0]"/></li>
-  <li><Card :number="numbers[1]"/></li>
-  <li><Card :number="numbers[2]"/></li>
-  <li><Card :number="numbers[3]"/></li>
-  <li><Card :number="numbers[4]"/></li>
-</ul>
+  <div class="flex-container">
+    <div class="header-container">
+      <Header></Header>
+    </div>
+    <div class="intro-container" v-if="false">
+      <Intro></Intro>
+    </div>
+    <div v-if="true" class="cards-container">
+      <Card :number="numbers[0]" draggable="true" @cardFixed="increaseFixActions"/>
+      <Card :number="numbers[1]" draggable="true" @cardFixed="increaseFixActions"/>
+      <Card :number="numbers[2]" draggable="true" @cardFixed="increaseFixActions"/>
+      <Card :number="numbers[3]" draggable="true" @cardFixed="increaseFixActions"/>
+      <Card :number="numbers[4]" draggable="true" @cardFixed="increaseFixActions"/>
+    </div>
+  </div>
+
+  <div class="actions">
+    <p>Lesen: {{ readActions }}</p>
+    <p>Merken: {{ saveActions }}</p>
+    <p>Fixieren: {{ fixActions }}</p>
+  </div>
 </template>
 
 <script>
-import Card from './components/Card.vue'
+import Header from "./components/Header.vue";
+import Card from "./components/Card.vue";
+import Intro from "./components/Intro.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Card
+    Header,
+    Card,
+    Intro,
   },
-  data(){
-    return{
+  data() {
+    return {
+      showIntro: true,
+      showAssignment: false,
       numbers: [],
-      readActions: 0, /*lesen*/
-      saveActions: 0, /*merken*/
-      fixActions: 0, /*fixieren*/
+      readActions: 0 /*lesen*/,
+      saveActions: 0 /*merken*/,
+      fixActions: 0 /*fixieren*/,
       startTime: null,
-      endTime: null
+      endTime: null,
     };
   },
-  created(){
-    this.numbers.push(Math.random());
-    this.numbers.push(Math.random());
-    this.numbers.push(Math.random());
-    this.numbers.push(Math.random());
-    this.numbers.push(Math.random());
-    console.log(this.numbers);
+  mounted(){
+    for(var i=0; i<=5; i++){
+      this.numbers.push(Math.floor(Math.random()*5));
+    }
   },
   methods: {
-    createRandomNumbers(){
-      console.log("getRandomNumber()")
-      return Math.random();
+    /* get random integer */
+    getNumber(max){
+      return 
+    },
+    toggleShowIntro() {
+      this.showIntro = !this.showIntro;
+    },
+    toggleShowAssignment() {
+      this.showAssignment = !this.showAssignment;
+    },
+    increaseFixActions(){
+      this.fixActions++;
+    },
+        increaseSaveActions(){
+      this.saveActions++;
+    },
+        increaseReadActions(){
+      this.readActions++;
     }
-  }
-}
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS';
+#app{
+}
+
+.flex-container {
+  display: flex;
+  flex-flow: column wrap;
+}
+.cards-container {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 10px;
 }
 </style>

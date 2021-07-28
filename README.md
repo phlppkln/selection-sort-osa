@@ -1,4 +1,5 @@
-# osa-sortierbeispiel
+# Sortierbeispiel (OSA)
+TU Wien - Informatik Online Self Assessment Beispiel zu Sortierung
 
 ## Project setup
 ```
