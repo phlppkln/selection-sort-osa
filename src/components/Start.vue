@@ -17,7 +17,8 @@ Ihre Aufgabe besteht darin, alle Karten nach der Größe ihres Zahlenwertes zu s
 export default {
 methods: {
     closeStart(){
-        $emit.closeStart();
+      console.log("closeStart")
+      this.$emit("startIntro");
     }
 }
 }

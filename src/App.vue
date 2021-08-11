@@ -3,22 +3,57 @@
     <div class="header-container">
       <Header></Header>
     </div>
-    <div class="intro-container" v-if="false">
-      <Intro></Intro>
+    <div class="intro-container" v-if="showIntro">
+      <Intro @closeIntro="closeIntro"></Intro>
     </div>
-    <div v-if="true" class="cards-container">
-      <Card :number="numbers[0]" draggable="true" @cardFixed="increaseFixActions"/>
-      <Card :number="numbers[1]" draggable="true" @cardFixed="increaseFixActions"/>
-      <Card :number="numbers[2]" draggable="true" @cardFixed="increaseFixActions"/>
-      <Card :number="numbers[3]" draggable="true" @cardFixed="increaseFixActions"/>
-      <Card :number="numbers[4]" draggable="true" @cardFixed="increaseFixActions"/>
+    <div v-if="showAssignment" class="cards-container">
+      <Card
+        class="card"
+        :number="numbers[0]"
+        draggable="true"
+        @cardFixed="increaseFixActions"
+        @cardRead="increaseReadActions"
+        @cardSaved="increaseSaveActions"
+      />
+      <Card
+        class="card"
+        :number="numbers[1]"
+        draggable="true"
+        @cardFixed="increaseFixActions"
+        @cardRead="increaseReadActions"
+        @cardSaved="increaseSaveActions"
+      />
+      <Card
+        class="card"
+        :number="numbers[2]"
+        draggable="true"
+        @cardFixed="increaseFixActions"
+        @cardRead="increaseReadActions"
+        @cardSaved="increaseSaveActions"
+      />
+      <Card
+        class="card"
+        :number="numbers[3]"
+        draggable="true"
+        @cardFixed="increaseFixActions"
+        @cardRead="increaseReadActions"
+        @cardSaved="increaseSaveActions"
+      />
+      <Card
+        class="card"
+        :number="numbers[4]"
+        draggable="true"
+        @cardFixed="increaseFixActions"
+        @cardRead="increaseReadActions"
+        @cardSaved="increaseSaveActions"
+      />
     </div>
   </div>
-
   <div class="actions">
     <p>Lesen: {{ readActions }}</p>
     <p>Merken: {{ saveActions }}</p>
     <p>Fixieren: {{ fixActions }}</p>
+    <p>Tauschen: {{ swapActions }}</p>
   </div>
 </template>
 
@@ -42,19 +77,20 @@ export default {
       readActions: 0 /*lesen*/,
       saveActions: 0 /*merken*/,
       fixActions: 0 /*fixieren*/,
+      swapActions: 0 /*tauschen*/,
       startTime: null,
       endTime: null,
     };
   },
-  mounted(){
-    for(var i=0; i<=5; i++){
-      this.numbers.push(Math.floor(Math.random()*5));
+  mounted() {
+    for (var i = 0; i <= 5; i++) {
+      this.numbers.push(Math.floor(Math.random() * 5));
     }
   },
   methods: {
     /* get random integer */
-    getNumber(max){
-      return 
+    getNumber(max) {
+      return;
     },
     toggleShowIntro() {
       this.showIntro = !this.showIntro;
@@ -62,21 +98,30 @@ export default {
     toggleShowAssignment() {
       this.showAssignment = !this.showAssignment;
     },
-    increaseFixActions(){
+    increaseFixActions() {
       this.fixActions++;
     },
-        increaseSaveActions(){
+    increaseSaveActions() {
+      console.log("saveActionsinreased");
       this.saveActions++;
     },
-        increaseReadActions(){
+    increaseReadActions() {
       this.readActions++;
+    },
+    closeIntro(){
+      this.showIntro = false;
+      this.showAssignment = true;
     }
   },
 };
 </script>
 
 <style>
-#app{
+#app {
+}
+
+.card {
+  margin: 20px;
 }
 
 .flex-container {
@@ -86,6 +131,8 @@ export default {
 .cards-container {
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
   padding: 10px;
+  margin: 10px;
 }
 </style>

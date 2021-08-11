@@ -1,72 +1,122 @@
 <template>
   <div class="card-container" :class="isCardFixed()">
-    <div class="fixieren-container"  @click="fixCard">
-      FIX
-      <div class="number">{{ number }}</div>
-      <div class="btn-container">
-        <div class="btn lesen-btn">Lesen</div>
-        <div class="btn merken-btn">Merken</div>
+    <div class="fixieren-container" @click="fixCard">
+      <p class="fix">FIX</p>
+    </div>
+    <div class="number">{{ !cardFlipped ? "" : number }}</div>
+    <div class="btn-container">
+      <div class="btn lesen-btn" :class="isCardRead()" @click="readCard">
+        Lesen
+      </div>
+      <div class="btn merken-btn" :class="isCardSaved()" @click="saveCard">
+        Merken
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Eye from "./IconsHelper/Eye.vue";
+import Pin from "./IconsHelper/Pin.vue";
+import Arrow from "./IconsHelper/Arrow.vue";
+
 export default {
+  components: {
+    Eye,
+    Pin,
+    Arrow,
+  },
   props: ["number"],
   data() {
-      return{
-          cardFixed: false,
-          lesenActive: false,
-          merkenActive: false,
-          numberVisiable: false
-      }
+    return {
+      cardFixed: false,
+      lesenActive: false,
+      merkenActive: false,
+      cardFlipped: false,
+    };
   },
   methods: {
-      fixCard(){
-          console.log("fixCard");
-          this.cardFixed = !this.cardFixed;
-          this.$emit('cardFixed')
-      },
-      isCardFixed(){
-          console.log("isCardFixed");
-          if(this.cardFixed){
-              return "cardFixed";
-          }
+    fixCard() {
+      this.cardFixed = !this.cardFixed;
+      this.$emit("cardFixed");
+    },
+    readCard() {
+      this.lesenActive = !this.lesenActive;
+      this.flipCard();
+      this.$emit("cardRead");
+    },
+    saveCard() {
+      this.merkenActive = !this.merkenActive;
+      this.flipCard();
+      this.$emit("cardSaved");
+    },
+    isCardFixed() {
+      if (this.cardFixed) {
+        return "cardFixed";
       }
-  }
+    },
+    isCardRead() {
+      if (this.lesenActive) {
+        return "cardLesen";
+      }
+    },
+    isCardSaved() {
+      if (this.merkenActive) {
+        return "cardMerken";
+      }
+    },
+    flipCard() {
+      if (this.lesenActive || this.merkenActive) {
+        this.cardFlipped = true;
+      } else if (!this.lesenActive && !this.merkenActive) {
+        this.cardFlipped = false;
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
+* {
+  /* border: 1px solid red; */
+}
+
 .card-container {
   border-radius: 10px;
   border: 2px solid black;
   height: 210px;
   width: 150px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .fixieren-container {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  cursor: pointer;
 }
 
-.cardFixed{
-    background-color: #ECFAFF;
+.cardFixed {
+  background-color: #ecfaff;
 }
 
-.fixieren-container:hover{
-    text-decoration: underline;
+.cardLesen {
+  color: #f28705;
+}
+
+.cardMerken {
+  color: #1ea983;
+}
+
+.fixieren-container:hover {
+  text-decoration: underline;
 }
 
 .number {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #006BAC;
-    color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #006bac;
+  color: black;
   height: 100px;
   width: 120px;
   border: 2px solid black;
@@ -75,8 +125,8 @@ export default {
 .btn-container {
   display: flex;
   justify-content: space-evenly;
-  background-color: red;
 }
+
 .btn {
   background-color: white;
   border: 1px solid black;
@@ -86,7 +136,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: green;
+  cursor: pointer;
+  margin: 10px;
 }
 /*
 .read-btn{
