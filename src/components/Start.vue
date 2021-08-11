@@ -11,6 +11,7 @@ Vor Ihnen befindet sich eine Reihe von Karten, wobei nur deren (leere) Rückseit
 Ihre Aufgabe besteht darin, alle Karten nach der Größe ihres Zahlenwertes zu sortieren, sodass jene mit dem geringsten Wert ganz links und jene mit dem größten ganz rechts zu liegen kommt.
 </p>
 <button @click="closeStart">Start</button>
+<button @click="skipIntro">Intro überspringen</button>
 </template>
 
 <script>
@@ -19,19 +20,15 @@ methods: {
     closeStart(){
       console.log("closeStart")
       this.$emit("startIntro");
+    },
+    skipIntro(){
+      console.log("skipIntro");
+      this.$emit("skipIntro");
     }
 }
 }
 </script>
 
 <style scoped>
-h1{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 40pt;
-    color: #006BAC
-}
-p{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 16pt;
-}
+
 </style>

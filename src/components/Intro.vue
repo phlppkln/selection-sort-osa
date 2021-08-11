@@ -1,6 +1,5 @@
 <template>
-  <Start @startIntro="showIntro"></Start>
-  <Intro></Intro>
+  <Start @startIntro="showTutorial" @skipIntro="closeIntro"></Start>
 </template>
 
 <script>
@@ -14,14 +13,18 @@ export default {
   },
   data() {
     return {
-      startIntro: false,
+      startTutorial: false,
     };
   },
   methods: {
-    showIntro() {
-      console.log("showIntro");
-      this.startIntro = true;
+    showTutorial() {
+      console.log("showTutorial");
+      this.showTutorial = true;
     },
+    closeIntro(){
+      console.log("closeIntro");
+      this.$emit("closeIntro");
+    }
   },
 };
 </script>

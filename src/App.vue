@@ -3,10 +3,10 @@
     <div class="header-container">
       <Header></Header>
     </div>
-    <div class="intro-container" v-if="showIntro">
+    <div class="intro-container" v-if="false">
       <Intro @closeIntro="closeIntro"></Intro>
     </div>
-    <div v-if="showAssignment" class="cards-container">
+    <div v-if="false" class="cards-container">
       <Card
         class="card"
         :number="numbers[0]"
@@ -49,6 +49,26 @@
       />
     </div>
   </div>
+
+<div v-if="true" class="cards-container">
+  <draggable
+    v-model="cardList"
+    @start="drag = true"
+    @end="drag = false"
+    item-key="id"
+  >
+    <template #item="{ element }">
+      <Card
+        class="card"
+        :number="numbers[element.id]"
+        draggable="true"
+        @cardFixed="increaseFixActions"
+        @cardRead="increaseReadActions"
+        @cardSaved="increaseSaveActions"
+      ></Card>
+    </template>
+  </draggable>
+</div>
   <div class="actions">
     <p>Lesen: {{ readActions }}</p>
     <p>Merken: {{ saveActions }}</p>
@@ -61,16 +81,26 @@
 import Header from "./components/Header.vue";
 import Card from "./components/Card.vue";
 import Intro from "./components/Intro.vue";
+import draggable from "vuedraggable";
 
 export default {
   name: "App",
   components: {
+    draggable,
     Header,
     Card,
     Intro,
   },
   data() {
     return {
+      drag: false,
+      cardList: [
+        { number: 2, id: 0 },
+        { number: 2, id: 1 },
+        { number: 2, id: 2 },
+        { number: 2, id: 3 },
+        { number: 2, id: 4 },
+      ],
       showIntro: true,
       showAssignment: false,
       numbers: [],
@@ -108,10 +138,11 @@ export default {
     increaseReadActions() {
       this.readActions++;
     },
-    closeIntro(){
+    closeIntro() {
+      console.log("closeIntro in App");
       this.showIntro = false;
       this.showAssignment = true;
-    }
+    },
   },
 };
 </script>
