@@ -48,27 +48,27 @@
         @cardSaved="increaseSaveActions"
       />
     </div>
-  </div>
 
-<div v-if="true" class="cards-container">
-  <draggable
-    v-model="cardList"
-    @start="drag = true"
-    @end="drag = false"
-    item-key="id"
-  >
-    <template #item="{ element }">
-      <Card
-        class="card"
-        :number="numbers[element.id]"
-        draggable="true"
-        @cardFixed="increaseFixActions"
-        @cardRead="increaseReadActions"
-        @cardSaved="increaseSaveActions"
-      ></Card>
-    </template>
-  </draggable>
-</div>
+    <div v-if="true" class="cards-container">
+      <draggable
+        v-model="cardList"
+        @start="drag = true"
+        @end="drag = false"
+        item-key="id"        
+      >
+        <template #item="{ element }">
+          <Card
+            class="card"
+            :number="numbers[element.id]"
+            draggable="true"
+            @cardFixed="increaseFixActions"
+            @cardRead="increaseReadActions"
+            @cardSaved="increaseSaveActions"
+          ></Card>
+        </template>
+      </draggable>
+    </div>
+  </div>
   <div class="actions">
     <p>Lesen: {{ readActions }}</p>
     <p>Merken: {{ saveActions }}</p>
@@ -152,12 +152,12 @@ export default {
 }
 
 .card {
-  margin: 20px;
+  margin: 40px;
 }
 
 .flex-container {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
 }
 .cards-container {
   display: flex;
@@ -165,5 +165,12 @@ export default {
   justify-content: center;
   padding: 10px;
   margin: 10px;
+}
+.actions{
+  color: gray;
+  border: 1px dashed black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
