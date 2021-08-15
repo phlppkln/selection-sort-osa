@@ -1,53 +1,23 @@
-<template>
-  <div class="flex-container">
-    <div class="header-container">
-      <Header></Header>
-    </div>
-    <div class="intro-container" v-if="false">
-      <Intro @closeIntro="closeIntro"></Intro>
-    </div>
-
-
-    <div v-if="true" class="cards-container">
-      <draggable
-      v-model="cardList"
-        @start="dragStart"
-        @end="dragEnd"
-        item-key="id"        
-      >
-        <template #item="{ element }">
-          <Card
-            class="card"
-            :number="numbers[element.id]"
-            @cardFixed="increaseFixActions"
-            @cardRead="increaseReadActions"
-            @cardSaved="increaseSaveActions"
-          ></Card>
-        </template>
-      </draggable>
-    </div>
-  </div>
-  <div class="actions">
-    <p>Lesen: {{ readActions }}</p>
-    <p>Merken: {{ saveActions }}</p>
-    <p>Fixieren: {{ fixActions }}</p>
-    <p>Tauschen: {{ swapActions }}</p>
-  </div>
+<template #item="{ element }">
+  <Card
+    class="card"
+    :number="numbers[element.id]"
+    draggable="true"
+    @cardFixed="increaseFixActions"
+    @cardRead="increaseReadActions"
+    @cardSaved="increaseSaveActions"
+  ></Card>
 </template>
-
+        
 <script>
-import Header from "./components/Header.vue";
-import Card from "./components/Card.vue";
-import Intro from "./components/Intro.vue";
+import Card from "./Card.vue";
 import draggable from "vuedraggable";
 
 export default {
   name: "App",
   components: {
     draggable,
-    Header,
     Card,
-    Intro,
   },
   data() {
     return {
@@ -101,12 +71,12 @@ export default {
       this.showIntro = false;
       this.showAssignment = true;
     },
-    dragStart(){
+    dragStart() {
       this.drag = true;
     },
-    dragEnd(){
+    dragEnd() {
       this.drag = false;
-    }
+    },
   },
 };
 </script>
@@ -131,7 +101,7 @@ export default {
   margin: 10px;
   border: 1px solid green;
 }
-.actions{
+.actions {
   color: gray;
   border: 1px dashed black;
   display: flex;
