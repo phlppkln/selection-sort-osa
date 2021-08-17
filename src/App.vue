@@ -7,7 +7,16 @@
       <Intro @closeIntro="closeIntro"></Intro>
     </div>
 
-
+    <!-- <div v-if="true" class="cards-container"><Assignment></Assignment></div> -->
+    <div class="cards-container">
+      <AssignmentV2
+        @card-fixed="increaseFixActions"
+        @card-read="increaseReadActions"
+        @card-saved="increaseSaveActions"
+        @card-swap="increaseSwapActions"
+      ></AssignmentV2>
+    </div>
+    <!--
     <div v-if="true" class="cards-container">
       <draggable
       v-model="cardList"
@@ -25,9 +34,9 @@
           ></Card>
         </template>
       </draggable>
-    </div>
+    </div>-->
   </div>
-  <div class="actions">
+  <div class="debugArea">
     <p>Lesen: {{ readActions }}</p>
     <p>Merken: {{ saveActions }}</p>
     <p>Fixieren: {{ fixActions }}</p>
@@ -37,31 +46,22 @@
 
 <script>
 import Header from "./components/Header.vue";
-import Card from "./components/Card.vue";
 import Intro from "./components/Intro.vue";
-import draggable from "vuedraggable";
+import Assignment from "./components/Assignment.vue";
+import AssignmentV2 from "./components/AssignmentV2.vue";
 
 export default {
   name: "App",
   components: {
-    draggable,
     Header,
-    Card,
     Intro,
+    Assignment,
+    AssignmentV2,
   },
   data() {
     return {
-      drag: false,
-      cardList: [
-        { number: 2, id: 0 },
-        { number: 2, id: 1 },
-        { number: 2, id: 2 },
-        { number: 2, id: 3 },
-        { number: 2, id: 4 },
-      ],
       showIntro: true,
       showAssignment: false,
-      numbers: [],
       readActions: 0 /*lesen*/,
       saveActions: 0 /*merken*/,
       fixActions: 0 /*fixieren*/,
@@ -70,16 +70,7 @@ export default {
       endTime: null,
     };
   },
-  mounted() {
-    for (var i = 0; i <= 5; i++) {
-      this.numbers.push(Math.floor(Math.random() * 5));
-    }
-  },
   methods: {
-    /* get random integer */
-    getNumber(max) {
-      return;
-    },
     toggleShowIntro() {
       this.showIntro = !this.showIntro;
     },
@@ -90,35 +81,23 @@ export default {
       this.fixActions++;
     },
     increaseSaveActions() {
-      console.log("saveActionsinreased");
       this.saveActions++;
     },
     increaseReadActions() {
       this.readActions++;
     },
+    increaseSwapActions(){
+      this.swapActions++;
+    },
     closeIntro() {
-      console.log("closeIntro in App");
       this.showIntro = false;
       this.showAssignment = true;
     },
-    dragStart(){
-      this.drag = true;
-    },
-    dragEnd(){
-      this.drag = false;
-    }
   },
 };
 </script>
 
 <style>
-#app {
-}
-
-.card {
-  margin: 40px;
-}
-
 .flex-container {
   display: flex;
   flex-flow: column nowrap;
@@ -130,12 +109,5 @@ export default {
   padding: 10px;
   margin: 10px;
   border: 1px solid green;
-}
-.actions{
-  color: gray;
-  border: 1px dashed black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 </style>

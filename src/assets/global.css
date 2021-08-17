@@ -9,3 +9,17 @@ h1{
 p{
     font-size: 16pt;
 }
+
+.debugArea{
+    background-color: lightseagreen;
+    width: 50%;
+    margin: 50px auto;
+}
+
+.actions{
+    color: gray;
+    border: 1px dashed black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }

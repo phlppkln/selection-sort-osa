@@ -1,111 +1,75 @@
-<template #item="{ element }">
-  <Card
-    class="card"
-    :number="numbers[element.id]"
-    draggable="true"
-    @cardFixed="increaseFixActions"
-    @cardRead="increaseReadActions"
-    @cardSaved="increaseSaveActions"
-  ></Card>
+<template>
+  <div class="card-container" :class="isCardFixed()">
+    <div class="fixieren-container" @click="fixCard">
+      <p class="fix">FIX</p>
+    </div>
+    <div class="number">
+      <component :is="number_component"></component>
+    </div>
+    <div class="btn-container">
+      <div class="btn lesen-btn" :class="isCardRead()" @click="readCard">
+        Lesen
+      </div>
+      <div class="btn merken-btn" :class="isCardSaved()" @click="saveCard">
+        Merken
+      </div>
+    </div>
+  </div>
 </template>
         
 <script>
 import Card from "./Card.vue";
-import draggable from "vuedraggable";
 
 export default {
-  name: "App",
   components: {
-    draggable,
     Card,
   },
   data() {
     return {
-      drag: false,
-      cardList: [
-        { number: 2, id: 0 },
-        { number: 2, id: 1 },
-        { number: 2, id: 2 },
-        { number: 2, id: 3 },
-        { number: 2, id: 4 },
-      ],
-      showIntro: true,
-      showAssignment: false,
-      numbers: [],
-      readActions: 0 /*lesen*/,
-      saveActions: 0 /*merken*/,
-      fixActions: 0 /*fixieren*/,
-      swapActions: 0 /*tauschen*/,
-      startTime: null,
-      endTime: null,
     };
   },
-  mounted() {
-    for (var i = 0; i <= 5; i++) {
-      this.numbers.push(Math.floor(Math.random() * 5));
-    }
-  },
   methods: {
-    /* get random integer */
-    getNumber(max) {
-      return;
+    
+    fixCard() {
+      this.cardFixed = !this.cardFixed;
+      this.$emit("cardFixed");
     },
-    toggleShowIntro() {
-      this.showIntro = !this.showIntro;
+    readCard() {
+      this.lesenActive = !this.lesenActive;
+      this.flipCard();
+      this.$emit("cardRead");
     },
-    toggleShowAssignment() {
-      this.showAssignment = !this.showAssignment;
+    saveCard() {
+      this.merkenActive = !this.merkenActive;
+      this.flipCard();
+      this.$emit("cardSaved");
     },
-    increaseFixActions() {
-      this.fixActions++;
+    isCardFixed() {
+      if (this.cardFixed) {
+        return "cardFixed";
+      }
     },
-    increaseSaveActions() {
-      console.log("saveActionsinreased");
-      this.saveActions++;
+    isCardRead() {
+      if (this.lesenActive) {
+        return "cardLesen";
+      }
     },
-    increaseReadActions() {
-      this.readActions++;
+    isCardSaved() {
+      if (this.merkenActive) {
+        return "cardMerken";
+      }
     },
-    closeIntro() {
-      console.log("closeIntro in App");
-      this.showIntro = false;
-      this.showAssignment = true;
-    },
-    dragStart() {
-      this.drag = true;
-    },
-    dragEnd() {
-      this.drag = false;
+    flipCard() {
+      if (this.lesenActive || this.merkenActive) {
+        this.cardFlipped = true;
+      } else if (!this.lesenActive && !this.merkenActive) {
+        this.cardFlipped = false;
+      }
     },
   },
 };
 </script>
 
-<style>
-#app {
-}
+<style scoped>
 
-.card {
-  margin: 40px;
-}
-
-.flex-container {
-  display: flex;
-  flex-flow: column nowrap;
-}
-.cards-container {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid green;
-}
-.actions {
-  color: gray;
-  border: 1px dashed black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 </style>

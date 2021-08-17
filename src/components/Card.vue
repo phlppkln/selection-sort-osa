@@ -1,14 +1,14 @@
 <template>
   <div class="card-container" :class="isCardFixed()">
     <div class="fixieren-container" @click="fixCard">
-      <p class="fix">FIX</p>
+      <p class="fix unselectable">FIX</p>
     </div>
-    <div class="number">{{ !cardFlipped ? "" : number }}</div>
+    <div class="number" draggable="true" :class="{ readCard: cardFlipped }" @dragstart="handleDragStart($event, this)">{{ !cardFlipped ? "" : number }}</div>
     <div class="btn-container">
-      <div class="btn lesen-btn" :class="isCardRead()" @click="readCard">
+      <div class="btn lesen-btn unselectable" :class="isCardRead()" @click="readCard">
         Lesen
       </div>
-      <div class="btn merken-btn" :class="isCardSaved()" @click="saveCard">
+      <div class="btn merken-btn unselectable" :class="isCardSaved()" @click="saveCard">
         Merken
       </div>
     </div>
@@ -36,6 +36,9 @@ export default {
     };
   },
   methods: {
+    handleDragStart(e, item){
+      console.log("dragStart" + e + item)
+    },
     fixCard() {
       this.cardFixed = !this.cardFixed;
       this.$emit("cardFixed");
@@ -96,7 +99,7 @@ export default {
 }
 
 .cardFixed {
-  background-color: #ecfaff;
+  background-color: #c2ebfa;
 }
 
 .cardLesen {
@@ -138,6 +141,9 @@ export default {
   align-items: center;
   cursor: pointer;
   margin: 10px;
+}
+.readCard{
+  background-color: white;
 }
 /*
 .read-btn{
