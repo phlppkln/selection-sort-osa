@@ -80,9 +80,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-  /* border: 1px solid red; */
-}
 
 .card-container {
   border-radius: 10px;

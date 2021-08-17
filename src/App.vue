@@ -108,6 +108,5 @@ export default {
   justify-content: center;
   padding: 10px;
   margin: 10px;
-  border: 1px solid green;
 }
 </style>
