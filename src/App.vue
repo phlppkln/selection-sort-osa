@@ -37,10 +37,10 @@
     </div>-->
   </div>
   <div class="debugArea">
-    <p>Lesen: {{ readActions }}</p>
-    <p>Merken: {{ saveActions }}</p>
-    <p>Fixieren: {{ fixActions }}</p>
-    <p>Tauschen: {{ swapActions }}</p>
+    <div>Lesen: {{ readActions }}</div>
+    <div>Merken: {{ saveActions }}</div>
+    <div>Fixieren: {{ fixActions }}</div>
+    <div>Tauschen: {{ swapActions }}</div>
   </div>
 </template>
 

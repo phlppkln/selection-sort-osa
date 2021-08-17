@@ -11,15 +11,10 @@ p{
 }
 
 .debugArea{
-    background-color: lightseagreen;
-    width: 50%;
-    margin: 50px auto;
-}
-
-.actions{
-    color: gray;
+    background-color: rgb(156, 156, 156);
+    text-align: center;
+    padding: 20px;
+    width: auto;
     border: 1px dashed black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+    border-radius: 10px;
+}
