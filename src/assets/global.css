@@ -1,16 +1,38 @@
 body {
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS";
-  }
+}
 
-h1{
+h1 {
     font-size: 40pt;
     color: #006BAC
 }
-p{
+
+p {
     font-size: 16pt;
 }
 
-.debugArea{
+.custom-btn {
+    color: #cfecfd;
+    background-color: #006BAC;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 0.25em 0.75em;
+    min-width: 10ch;
+    min-height: 44px;
+    text-align: center;
+    line-height: 1.1;
+}
+
+.custom-btn:hover{
+    color: #fff;
+    background-color: #00446e
+}
+
+.debugArea {
     background-color: rgb(156, 156, 156);
     text-align: center;
     padding: 20px;

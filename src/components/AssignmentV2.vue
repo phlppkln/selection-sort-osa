@@ -41,7 +41,7 @@
     </div>
   </div>
 
-  <div class="feedback-field"></div>
+  <div class="feedback-field">Feedback field</div>
 </template>
 
 <script>

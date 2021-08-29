@@ -3,12 +3,12 @@
     <div class="header-container">
       <Header></Header>
     </div>
-    <div class="intro-container" v-if="false">
+    <div class="intro-container" v-if="showIntro">
       <Intro @closeIntro="closeIntro"></Intro>
     </div>
 
-    <!-- <div v-if="true" class="cards-container"><Assignment></Assignment></div> -->
-    <div class="cards-container">
+    <!--<div v-if="true" class="cards-container"><Assignment></Assignment></div> -->
+    <div class="cards-container" v-if="showAssignment">
       <AssignmentV2
         @card-fixed="increaseFixActions"
         @card-read="increaseReadActions"
@@ -93,6 +93,10 @@ export default {
       this.showIntro = false;
       this.showAssignment = true;
     },
+    restartIntro(){
+      this.showIntro = true;
+      this.showAssignment = false;
+    }
   },
 };
 </script>

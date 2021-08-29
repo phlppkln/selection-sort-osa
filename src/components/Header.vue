@@ -2,27 +2,58 @@
   <div class="header">
     <img class="logo" alt="tu-logo" src="../assets/tu-logo.svg" />
     <div class="header-right">
-      <a href="#osa" target="_blank">Zurück zum Online Self Assessment</a>
+      <div class="header-btn custom-btn" @click="openLMSCourse">
+        Zurück zum Online Self Assessment
+      </div>
+      <div class="header-link" @click="restartIntro">
+        Einführung neu starten
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  emits: ["restart-intro"],
+  methods: {
+    restartIntro() {
+      console.log("intro neu starten");
+      this.$emit("restart-intro");
+    },
+    openLMSCourse(){
+      console.log("open TUWEL Course")
+      window.open('https://moodle.studienbeginn.tuwien.ac.at/course/view.php?id=190', '_blank')
+    }
+  },
+};
 </script>
 
 <style scoped>
-.header{
-    padding: 20px;
-    border-bottom: 1px solid black;
-}
-
-.header a:hover {
-  color: black;
+.header {
+  padding: 20px;
+  border-bottom: 1px solid black;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 
 .header-right {
-  float: right;
+  text-align: right;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+
+.header-btn {
+}
+
+.header-link {
+  padding-top: 20px;
+  cursor: pointer;
+}
+
+.header-link:hover {
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 500px) {

@@ -10,8 +10,8 @@ Aber nun zur Aufgabe:</h2>
 Vor Ihnen befindet sich eine Reihe von Karten, wobei nur deren (leere) Rückseiten zu sehen sind. Die Vorderseiten sind mit einer Zahl versehen, die sich in der Reihe in dieser Aufgabe nicht wiederholt. Die Karten sind zufällig angeordnet, und jede Karte nimmt genau eine Speicherposition ein.
 Ihre Aufgabe besteht darin, alle Karten nach der Größe ihres Zahlenwertes zu sortieren, sodass jene mit dem geringsten Wert ganz links und jene mit dem größten ganz rechts zu liegen kommt.
 </p>
-<button @click="closeStart">Start</button>
-<button @click="skipIntro">Intro überspringen</button>
+<div class="custom-btn" @click="closeStart">Start</div>
+<div class="custom-btn" @click="skipIntro">Intro überspringen</div>
 </template>
 
 <script>
