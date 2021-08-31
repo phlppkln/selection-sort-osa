@@ -1,10 +1,10 @@
 <template>
   <div class="flex-container">
     <div class="header-container">
-      <Header></Header>
+      <Header @restart-intro="restartIntro" :showRestartIntro="!showIntro"></Header>
     </div>
     <div class="intro-container" v-if="showIntro">
-      <Intro @closeIntro="closeIntro"></Intro>
+      <Intro @skip-intro="skipIntro" @finish-intro="finishIntro"></Intro>
     </div>
 
     <!--<div v-if="true" class="cards-container"><Assignment></Assignment></div> -->
@@ -41,6 +41,9 @@
     <div>Merken: {{ saveActions }}</div>
     <div>Fixieren: {{ fixActions }}</div>
     <div>Tauschen: {{ swapActions }}</div>
+    <div>Intro übersprungen: {{ introSkipped }}</div>
+    <div>Intro abgeschlossen: {{ introFinished }}</div>
+    <div>Intro Neustarts: {{ introRestarts }}</div>
   </div>
 </template>
 
@@ -62,10 +65,14 @@ export default {
     return {
       showIntro: true,
       showAssignment: false,
+      showRestartIntro: false,
       readActions: 0 /*lesen*/,
       saveActions: 0 /*merken*/,
       fixActions: 0 /*fixieren*/,
       swapActions: 0 /*tauschen*/,
+      introSkipped: false,
+      introFinished: false,
+      introRestarts: 0,
       startTime: null,
       endTime: null,
     };
@@ -89,13 +96,18 @@ export default {
     increaseSwapActions(){
       this.swapActions++;
     },
-    closeIntro() {
+    skipIntro() {
       this.showIntro = false;
       this.showAssignment = true;
+      this.introSkipped = true
     },
     restartIntro(){
       this.showIntro = true;
       this.showAssignment = false;
+      this.introRestarts++
+    },
+    finishedIntro() {
+      this.introFinished = true
     }
   },
 };

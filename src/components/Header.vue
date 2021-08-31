@@ -6,7 +6,7 @@
         Zurück zum Online Self Assessment
       </div>
       <div class="header-link" @click="restartIntro">
-        Einführung neu starten
+        <!--{{ !showRestartIntro ? " " : "Einführung neu starten" }}-->Einführung neu starten
       </div>
     </div>
   </div>
@@ -14,14 +14,13 @@
 
 <script>
 export default {
+  props: ['showRestartIntro'],
   emits: ["restart-intro"],
   methods: {
     restartIntro() {
-      console.log("intro neu starten");
-      this.$emit("restart-intro");
+      this.$emit("restart-intro")
     },
     openLMSCourse(){
-      console.log("open TUWEL Course")
       window.open('https://moodle.studienbeginn.tuwien.ac.at/course/view.php?id=190', '_blank')
     }
   },
