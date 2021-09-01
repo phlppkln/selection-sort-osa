@@ -36,15 +36,27 @@
   <div class="custom-btn" @click="startTutorial">Start</div>
   <div class="custom-btn" @click="skipIntro">Intro überspringen</div></div>
   <Tutorial v-if="showTutorial"></Tutorial>
+
+  <slither-slider>
+    <!-- Slide 1 -->
+  <div :style="{backgroundColor: 'red', height:'1000px'}">Oh</div>
+
+  <!-- Slide 2 -->
+  <div>
+    Mah
+    <img src="https://picsum.photos/id/237/200/300" />
+  </div>
+
+  <!-- Slide 3 -->
+  <div>Gawd</div>
+  </slither-slider>
 </template>
 
 <script>
-import Start from "./Start.vue";
 import Tutorial from "./Tutorial.vue"
 
 export default {
   components: {
-    Start,
     Tutorial
   },
   emits: ['skip-intro', 'finish-intro'],
@@ -55,7 +67,7 @@ export default {
   },
   methods: {    
     startTutorial() {
-      console.log("start Tutorial: " + this.startTutorial)
+      console.log("start Tutorial: " + this.showTutorial)
       this.showTutorial = true;
     },
     skipIntro() {
@@ -68,5 +80,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

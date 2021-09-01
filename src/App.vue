@@ -1,10 +1,13 @@
 <template>
   <div class="flex-container">
     <div class="header-container">
-      <Header @restart-intro="restartIntro" :showRestartIntro="!showIntro"></Header>
+      <Header
+        @restart-intro="restartIntro"
+        :showRestartIntro="!showIntro"
+      ></Header>
     </div>
     <div class="intro-container" v-if="showIntro">
-      <Intro @skip-intro="skipIntro" @finish-intro="finishIntro"></Intro>
+      <Intro @skip-intro="setSkipIntro" @finish-intro="setIntroFinished"></Intro>
     </div>
 
     <!--<div v-if="true" class="cards-container"><Assignment></Assignment></div> -->
@@ -93,22 +96,22 @@ export default {
     increaseReadActions() {
       this.readActions++;
     },
-    increaseSwapActions(){
+    increaseSwapActions() {
       this.swapActions++;
     },
-    skipIntro() {
+    setSkipIntro() {
       this.showIntro = false;
       this.showAssignment = true;
-      this.introSkipped = true
+      this.introSkipped = true;
     },
-    restartIntro(){
+    restartIntro() {
       this.showIntro = true;
       this.showAssignment = false;
-      this.introRestarts++
+      this.introRestarts++;
     },
-    finishedIntro() {
-      this.introFinished = true
-    }
+    setIntroFinished() {
+      this.introFinished = true;
+    },
   },
 };
 </script>

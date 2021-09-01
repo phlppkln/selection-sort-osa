@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",     
+    "build": "vue-cli-service build",
     "deploy": "node scripts/gh-pages-deploy.js"
   },
   "dependencies": {
     "core-js": "^3.16.1",
+    "slither-slider": "^2.11.0",
     "vue": "^3.2.1",
     "vuedraggable": "^4.0.3"
   },

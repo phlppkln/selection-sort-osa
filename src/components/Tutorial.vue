@@ -1,5 +1,8 @@
 <template>
-  
+  <div class="tutorial-container">
+    <div class="main-text"></div>
+    <div class="additional-text"></div>
+  </div>
 </template>
 
 <script>
