@@ -36,28 +36,16 @@
   <div class="custom-btn" @click="startTutorial">Start</div>
   <div class="custom-btn" @click="skipIntro">Intro überspringen</div></div>
   <Tutorial v-if="showTutorial"></Tutorial>
-
-  <slither-slider>
-    <!-- Slide 1 -->
-  <div :style="{backgroundColor: 'red', height:'1000px'}">Oh</div>
-
-  <!-- Slide 2 -->
-  <div>
-    Mah
-    <img src="https://picsum.photos/id/237/200/300" />
-  </div>
-
-  <!-- Slide 3 -->
-  <div>Gawd</div>
-  </slither-slider>
 </template>
 
 <script>
 import Tutorial from "./Tutorial.vue"
+import SlitherSlider from 'slither-slider'
 
 export default {
   components: {
-    Tutorial
+    Tutorial,
+    SlitherSlider
   },
   emits: ['skip-intro', 'finish-intro'],
   data() {
