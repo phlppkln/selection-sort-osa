@@ -40,12 +40,10 @@
 
 <script>
 import Tutorial from "./Tutorial.vue"
-import SlitherSlider from 'slither-slider'
 
 export default {
   components: {
     Tutorial,
-    SlitherSlider
   },
   emits: ['skip-intro', 'finish-intro'],
   data() {
