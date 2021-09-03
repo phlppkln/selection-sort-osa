@@ -235,4 +235,12 @@ export default {
 .readCard {
   background-color: white;
 }
+
+.cards-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  padding: 10px;
+  margin: 10px;
+}
 </style>

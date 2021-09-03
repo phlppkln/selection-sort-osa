@@ -11,7 +11,7 @@
     </div>
 
     <!--<div v-if="true" class="cards-container"><Assignment></Assignment></div> -->
-    <div class="cards-container" v-if="showAssignment">
+    <div class="assignment-container" v-if="showAssignment">
       <AssignmentV2
         @card-fixed="increaseFixActions"
         @card-read="increaseReadActions"
@@ -121,11 +121,12 @@ export default {
   display: flex;
   flex-flow: column nowrap;
 }
-.cards-container {
+.assignment-container {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   padding: 10px;
   margin: 10px;
+  border: 1px solid black;
 }
 </style>
