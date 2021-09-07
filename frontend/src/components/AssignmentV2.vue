@@ -159,7 +159,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px;
 }
 
 .feedback-field {
@@ -168,15 +167,6 @@ export default {
   width: 100%;
 }
 
-.card-container {
-  border-radius: 10px;
-  border: 2px solid black;
-  height: 210px;
-  width: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 .fixieren-container {
   display: flex;
   cursor: pointer;
@@ -239,8 +229,7 @@ export default {
 .cards-container {
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
-  padding: 10px;
-  margin: 10px;
+  justify-content: space-between;
+  border: 1px solid green;
 }
 </style>

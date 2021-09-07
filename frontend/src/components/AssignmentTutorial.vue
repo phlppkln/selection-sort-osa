@@ -28,14 +28,20 @@
         <div class="btn-container">
           <div
             class="btn unselectable"
-            :class="{ cardLesen: card.lesenActive }"
+            :class="{
+              cardLesen: card.lesenActive,
+              readNotVisible: this.tutorialStep < 3,
+            }"
             @click="readCard(card.id)"
           >
             Lesen
           </div>
           <div
             class="btn unselectable"
-            :class="{ cardMerken: card.merkenActive }"
+            :class="{
+              cardMerken: card.merkenActive,
+              saveNotVisible: this.tutorialStep < 4,
+            }"
             @click="saveCard(card.id)"
           >
             Merken
@@ -106,17 +112,19 @@ export default {
         },
       ],
       grabbedCard: null,
-      readTutorialFinished: false,
-      saveTutorialFinished: false,
-      swapTutorialFinished: false,
-      fixTutorialFinished: false,
+      cardsRead: 0,
+      cardsSaved: 0,
+      cardsSwapped: 0,
+      cardsFixed: 0,
     };
   },
   computed: {
     classObject() {
       return {
         fixNotVisible: this.tutorialStep < 6,
-        saveNotVisible: this.tutorialStep < 3,
+        readNotVisible: this.tutorialStep < 3,
+        saveNotVisible: this.tutorialStep < 4,
+        swapNotPossible: this.tutorialStep < 6,
       };
     },
   },
@@ -130,29 +138,31 @@ export default {
       }
     },
     dropHandler(e, card) {
-      if (this.tutorialStep < 8) {
-        console.log("swap not allowed yet");
-      } else {
+      if (!this.swapNotPossible) {
         e.preventDefault();
         // swap cards
         let tmpNumber = card.number;
         card.number = this.grabbedCard.number;
         this.grabbedCard.number = tmpNumber;
+        this.checkSwapTutorialFinished();
       }
     },
     fixCard(cardId) {
       const card = this.cardList.find((card) => card.id === cardId);
       card.fixActive = !card.fixActive;
+      this.checkFixTutorialFinished();
     },
     readCard(cardId) {
       const card = this.cardList.find((card) => card.id === cardId);
       card.lesenActive = !card.lesenActive;
       this.flipCard(card);
+      this.checkReadTutorialFinished();
     },
     saveCard(cardId) {
       const card = this.cardList.find((card) => card.id === cardId);
       card.merkenActive = !card.merkenActive;
       this.flipCard(card);
+      this.checkSaveTutorialFinished();
     },
     flipCard(card) {
       if (card.lesenActive || card.merkenActive) {
@@ -161,12 +171,32 @@ export default {
         card.cardFlipped = false;
       }
     },
-    checkReadTutorialFinished() {},
-    checkSaveTutorialFinished() {},
-    checkSwapTutorialFinished() {},
-    checkFixTutorialFinished() {},
+    checkReadTutorialFinished() {
+      this.cardsRead++;
+      if (this.cardsRead > 2) {
+        this.$emit("read-tutorial-finished");
+      }
+    },
+    checkSaveTutorialFinished() {
+      this.cardsSaved++;
+      if (this.cardsSaved > 2) {
+        this.$emit("save-tutorial-finished");
+      }
+    },
+    checkSwapTutorialFinished() {
+      this.cardsSwapped++;
+      if (this.cardsSwapped > 2) {
+        this.$emit("swap-tutorial-finished");
+      }
+    },
+    checkFixTutorialFinished() {
+      this.cardsFixed++;
+      if (this.cardsFixed > 2) {
+        this.$emit("fix-tutorial-finished");
+      }
+    },
     getVisibilityStatus() {
-      if (this.tutorialStep < 5) return "fix-not-visible";
+      if (this.swapNotPossible) return "fix-not-visible";
       else "";
     },
   },
@@ -187,6 +217,20 @@ export default {
 
 .fixNotVisible {
   visibility: hidden;
+}
+
+.readNotVisible {
+  visibility: hidden;
+}
+
+.saveNotVisible {
+  visibility: hidden;
+}
+
+.feedback-field {
+  border: 1px solid black;
+  height: 200px;
+  width: 100%;
 }
 
 .card-container {
@@ -255,5 +299,13 @@ export default {
 }
 .readCard {
   background-color: white;
+}
+
+.cards-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  padding: 10px;
+  margin: 10px;
 }
 </style>

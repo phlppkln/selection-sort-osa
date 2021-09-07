@@ -1,25 +1,31 @@
 <template>
   <div class="flex-container">
-    <div class="header-container">
-      <Header
-        @restart-intro="restartIntro"
-        :showRestartIntro="!showIntro"
-      ></Header>
-    </div>
-    <div class="intro-container" v-if="showIntro">
-      <Intro @skip-intro="setSkipIntro" @finish-intro="setIntroFinished"></Intro>
-    </div>
+    
+      <div class="header-container">
+        <Header
+          @restart-intro="restartIntro"
+          :showRestartIntro="!showIntro"
+        ></Header>
+      </div>
+      <div class="main-content">
+      <div class="intro-container" v-if="showIntro">
+        <Intro
+          @skip-intro="setSkipIntro"
+          @finish-intro="setIntroFinished"
+        ></Intro>
+      </div>
 
-    <!--<div v-if="true" class="cards-container"><Assignment></Assignment></div> -->
-    <div class="assignment-container" v-if="showAssignment">
-      <AssignmentV2
-        @card-fixed="increaseFixActions"
-        @card-read="increaseReadActions"
-        @card-saved="increaseSaveActions"
-        @card-swap="increaseSwapActions"
-      ></AssignmentV2>
+      <!--<div v-if="true" class="cards-container"><Assignment></Assignment></div> -->
+      <div class="assignment-container" v-if="showAssignment">
+        <AssignmentV2
+          @card-fixed="increaseFixActions"
+          @card-read="increaseReadActions"
+          @card-saved="increaseSaveActions"
+          @card-swap="increaseSwapActions"
+        ></AssignmentV2>
+      </div>
     </div>
-    <!--
+  <!--
     <div v-if="true" class="cards-container">
       <draggable
       v-model="cardList"
@@ -38,7 +44,6 @@
         </template>
       </draggable>
     </div>-->
-  </div>
   <div class="debugArea">
     <div>Lesen: {{ readActions }}</div>
     <div>Merken: {{ saveActions }}</div>
@@ -47,6 +52,8 @@
     <div>Intro übersprungen: {{ introSkipped }}</div>
     <div>Intro abgeschlossen: {{ introFinished }}</div>
     <div>Intro Neustarts: {{ introRestarts }}</div>
+  </div>
+  
   </div>
 </template>
 
@@ -117,16 +124,20 @@ export default {
 </script>
 
 <style>
+
 .flex-container {
   display: flex;
   flex-flow: column nowrap;
 }
-.assignment-container {
+
+.main-content{
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row;
   justify-content: center;
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid black;
+  align-self: center;
+  margin-top: 5%;
+  border: 1px solid red;
+  width: 75%;
 }
+
 </style>
