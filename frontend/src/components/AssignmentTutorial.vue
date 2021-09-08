@@ -40,7 +40,7 @@
             class="btn unselectable"
             :class="{
               cardMerken: card.merkenActive,
-              saveNotVisible: this.tutorialStep < 4,
+              saveNotVisible: this.tutorialStep < 5,
             }"
             @click="saveCard(card.id)"
           >
@@ -121,16 +121,16 @@ export default {
   computed: {
     classObject() {
       return {
-        fixNotVisible: this.tutorialStep < 6,
+        fixNotVisible: this.tutorialStep < 8,
         readNotVisible: this.tutorialStep < 3,
-        saveNotVisible: this.tutorialStep < 4,
+        saveNotVisible: this.tutorialStep < 5,
         swapNotPossible: this.tutorialStep < 6,
       };
     },
   },
   methods: {
     dragstartHandler(e, card) {
-      if (this.tutorialStep < 8) {
+      if (this.tutorialStep < 6) {
         console.log("swap not allowed");
         return;
       } else {
@@ -138,7 +138,7 @@ export default {
       }
     },
     dropHandler(e, card) {
-      if (!this.swapNotPossible) {
+      if (!this.tutorialStep < 6) {
         e.preventDefault();
         // swap cards
         let tmpNumber = card.number;
