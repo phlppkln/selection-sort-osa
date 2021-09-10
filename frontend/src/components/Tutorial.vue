@@ -12,7 +12,7 @@
 
     <div class="slides-container">
       <div class="slide" v-if="pageNumber === 1">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Die Werte aller Karten sind während der Bearbeitung der Aufgabe
@@ -27,7 +27,7 @@
       </div>
 
       <div class="slide" v-else-if="pageNumber === 2">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Für das Sortieren der Karten stehen Ihnen deshalb verschiedene
@@ -38,7 +38,7 @@
       </div>
 
       <div class="slide" v-else-if="pageNumber === 3">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Das Hilfsmittel Lesen verwenden Sie, indem Sie auf das (Auge-)Symbol
@@ -53,11 +53,12 @@
             Aufgabe ein Lesezeiger eingesetzt, der die Vorgehensweise eines
             Computerprogrammes beim Lesen einer Karte simuliert.
           </div>
+          <div class="error-text" v-html="errorMessage"></div>
         </div>
       </div>
 
       <div class="slide" v-else-if="pageNumber === 4">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Bedenken Sie, dass die Werte verdeckter Karten für ein
@@ -73,7 +74,7 @@
       </div>
 
       <div class="slide" v-else-if="pageNumber === 5">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Mit einem Klick auf das Hilfsmittel Merken können Sie den Wert einer
@@ -94,10 +95,11 @@
             Merkzeigers ist es jetzt möglich, zwei Kartenwerte gleichzeitig
             sehen zu können.
           </div>
+          <div class="error-text" v-html="errorMessage"></div>
         </div>
       </div>
       <div class="slide" v-else-if="pageNumber === 6">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Um die Reihenfolge der Karten zu ändern, tauschen Sie jeweils zwei
@@ -109,10 +111,11 @@
             auf „x“ bricht den Tausch ab.
           </div>
           <div class="additional-text"></div>
+          <div class="error-text" v-html="errorMessage"></div>
         </div>
       </div>
       <div class="slide" v-else-if="pageNumber === 7">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Aber beachten Sie: Werden zwei Karten in ihrer Position verändert
@@ -124,7 +127,7 @@
         </div>
       </div>
       <div class="slide" v-else-if="pageNumber === 8">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Und zuletzt: Mit dem Hilfsmittel Fixieren grenzen Sie den Bereich
@@ -139,10 +142,11 @@
             Damit das Programm nicht „vergisst“, welche Zahlen schon sortiert
             sind und wo noch zu sortieren ist, verwendet es die Fixierfunktion.
           </div>
+          <div class="error-text" v-html="errorMessage"></div>
         </div>
       </div>
       <div class="slide" v-else-if="pageNumber === 9">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Der Arbeitsbereich enthält die (noch) zu sortierenden Zahlen. Der
@@ -153,7 +157,7 @@
         </div>
       </div>
       <div class="slide" v-else-if="pageNumber === 10">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Der Fixierbereich umfasst die bereits auf ihren Endpositionen
@@ -164,7 +168,7 @@
         </div>
       </div>
       <div class="slide" v-else-if="pageNumber === 11">
-        <div class="slide-left-container"></div>
+        <div class="slide-left-container">NONE</div>
         <div class="slide-text-container">
           <div class="main-text">
             Und zum Schluss: Werden zwei Kärtchen in ihrer Position verändert
@@ -204,17 +208,45 @@ export default {
       saveFinished: false,
       fixFinished: false,
       swapFinished: false,
+      errorMessage: "",
     };
   },
   emits: ["tutorial-finished"],
   methods: {
     nextPage() {
+      //check if read tutorial is finished
+      if (this.pageNumber == 3 && !this.readFinished) {
+        //set error message
+        this.errorMessage =
+          "Führen Sie drei Leseoperationen durch um fortzufahren.";
+        return;
+      }
+      if (this.pageNumber == 5 && !this.saveFinished) {
+        //show error message
+        this.errorMessage =
+          "Führen Sie drei Merkoperationen durch um fortzufahren.";
+        return;
+      }
+      if (this.pageNumber == 6 && !this.swapFinished) {
+        //show error message
+        this.errorMessage =
+          "Führen Sie drei Tauschoperationen durch um fortzufahren.";
+        return;
+      }
+      if (this.pageNumber == 8 && !this.fixFinished) {
+        //show error message
+        this.errorMessage =
+          "Führen Sie drei Fixieroperationen durch um fortzufahren.";
+        return;
+      }
+      if(this.pageNumber == 11){
+        console.log("tutorial finsihed")
+        this.$emit("tutorial-finished");
+        return;
+      }
       this.pageNumber++;
       this.pageNumber = Math.min(this.pages, this.pageNumber);
-      console.log(this.readFinished);
-      console.log(this.saveFinished);
-      console.log(this.fixFinished);
-      console.log(this.swapFinished);
+      this.errorMessage = "";
     },
     previousPage() {
       this.pageNumber--;
@@ -241,28 +273,39 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   min-height: 300px;
-  border: 1px dotted red;
 }
 
 .slide-text-container {
   border: 1px solid black;
   border-radius: 10px;
-  width: 80%;
+  min-width: 80%;
+  max-width: 80%;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding: 20px;
 }
 .slide-left-container {
   border: 1px solid black;
   border-radius: 10px;
-  padding: 20px;
-  margin-right: 20px;
   width: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .additional-text {
   padding-top: 10px;
   font-style: italic;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.error-text{
+  padding-top: 10px;
+  font-weight: bold;
+  color: red;
 }
 
 /* ----- NAVIGATION ------ */

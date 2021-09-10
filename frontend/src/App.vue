@@ -1,6 +1,5 @@
 <template>
   <div class="flex-container">
-    
       <div class="header-container">
         <Header
           @restart-intro="restartIntro"
@@ -63,6 +62,7 @@ import Intro from "./components/Intro.vue";
 import Assignment from "./components/Assignment.vue";
 import AssignmentV2 from "./components/AssignmentV2.vue";
 
+
 export default {
   name: "App",
   components: {
@@ -118,6 +118,8 @@ export default {
     },
     setIntroFinished() {
       this.introFinished = true;
+      this.showIntro = false;
+      this.showAssignment = true;
     },
   },
 };
@@ -132,11 +134,9 @@ export default {
 
 .main-content{
   display: flex;
-  flex-flow: row;
   justify-content: center;
   align-self: center;
   margin-top: 5%;
-  border: 1px solid red;
   width: 75%;
 }
 

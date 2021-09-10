@@ -132,7 +132,6 @@ export default {
     dragstartHandler(e, card) {
       if (this.tutorialStep < 6) {
         console.log("swap not allowed");
-        return;
       } else {
         this.grabbedCard = card;
       }
@@ -173,31 +172,31 @@ export default {
     },
     checkReadTutorialFinished() {
       this.cardsRead++;
-      if (this.cardsRead > 2) {
+      if (this.cardsRead >= 2) {
         this.$emit("read-tutorial-finished");
       }
     },
     checkSaveTutorialFinished() {
       this.cardsSaved++;
-      if (this.cardsSaved > 2) {
+      if (this.cardsSaved >= 2) {
         this.$emit("save-tutorial-finished");
       }
     },
     checkSwapTutorialFinished() {
       this.cardsSwapped++;
-      if (this.cardsSwapped > 2) {
+      if (this.cardsSwapped >= 2) {
         this.$emit("swap-tutorial-finished");
       }
     },
     checkFixTutorialFinished() {
       this.cardsFixed++;
-      if (this.cardsFixed > 2) {
+      if (this.cardsFixed >= 2) {
         this.$emit("fix-tutorial-finished");
       }
     },
     getVisibilityStatus() {
       if (this.swapNotPossible) return "fix-not-visible";
-      else "";
+      else return "";
     },
   },
 };

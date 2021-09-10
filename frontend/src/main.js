@@ -7,8 +7,8 @@ createApp(App).mount('#app')
 
 window.onload = function() {
     var labels = document.getElementsByClassName('unselectable');
-    for (var i = 0; i < labels.length; i++) {
-        disableSelection(labels[i]);
+    for(var label of labels){
+        disableSelection(label)
     }
 };
 function disableSelection(element) {
