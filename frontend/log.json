@@ -1,0 +1,16 @@
+{
+    "log": [{
+        "id": 0,
+        "personID": 0,
+        "date": "2021-09-01, 15:01:05",
+        "solutionPath": 1,
+        "stepID": 1,
+        "targetToolID": 1,
+        "realToolID": 1,
+        "targetCardID": 1,
+        "realCardID": 1,
+        "errorCountStep": 0,
+        "errorCountTotal": 0,
+        "comment": "Rückmeldung für richtige Lösung wird ausgegeben"
+    }]
+}

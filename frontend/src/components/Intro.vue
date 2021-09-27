@@ -35,7 +35,7 @@
   </p>
   <div class="custom-btn" @click="startTutorial">Start</div>
   <div class="custom-btn" @click="skipIntro">Intro überspringen</div></div>
-  <Tutorial v-if="showTutorial" @tutorial-finished="finishIntro"></Tutorial>
+  <Tutorial v-if="showTutorial" @tutorial-finished="finishIntro" @skip-tutorial="skipIntro"></Tutorial>
 </template>
 
 <script>

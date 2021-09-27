@@ -41,10 +41,13 @@
     </div>
   </div>
 
-  <div class="feedback-field">Hier wird das Beispiel bearbeitet</div>
+  <div class="feedback-field">Hier wird das Beispiel bearbeitet
+    <p>{{ feedbackMessage }}</p>
+  </div>
 </template>
 
 <script>
+import * as sorting from "../assets/scripts/sorting-algorithm.js"
 import { ref } from "vue";
 import Card from "./Card.vue";
 
@@ -57,17 +60,8 @@ export default {
     return {
       cardList: [
         {
-          id: 0,
-          number: 5,
-          slotPosition: 0,
-          lesenActive: false,
-          merkenActive: false,
-          fixActive: false,
-          cardFlipped: false,
-        },
-        {
           id: 1,
-          number: 6,
+          number: 5,
           slotPosition: 1,
           lesenActive: false,
           merkenActive: false,
@@ -76,7 +70,7 @@ export default {
         },
         {
           id: 2,
-          number: 7,
+          number: 4,
           slotPosition: 2,
           lesenActive: false,
           merkenActive: false,
@@ -85,7 +79,7 @@ export default {
         },
         {
           id: 3,
-          number: 8,
+          number: 2,
           slotPosition: 3,
           lesenActive: false,
           merkenActive: false,
@@ -94,8 +88,17 @@ export default {
         },
         {
           id: 4,
-          number: 9,
+          number: 1,
           slotPosition: 4,
+          lesenActive: false,
+          merkenActive: false,
+          fixActive: false,
+          cardFlipped: false,
+        },
+        {
+          id: 5,
+          number: 3,
+          slotPosition: 5,
           lesenActive: false,
           merkenActive: false,
           fixActive: false,
@@ -103,41 +106,54 @@ export default {
         },
       ],
       grabbedCard: null,
+      feedbackMessage: "",
+      selectedSolutionPath: 0,
+      actionCounter: 0,
     };
   },
   methods: {
+    getCard(cardId){
+      return this.cardList.find((card) => card.id === cardId);
+    },
     dragstartHandler(e, card) {
-      this.grabbedCard = card
+      sorting.getSolutionPath(this.actionCounter, card.id, "swap");
+      this.grabbedCard = card;
     },
     dropHandler(e, card) {
-      e.preventDefault()
+      e.preventDefault();
       // swap cards
-      let tmpNumber = card.number
-      card.number = this.grabbedCard.number
-      this.grabbedCard.number = tmpNumber
-      this.$emit("card-swap")
+      let tmpNumber = card.number;
+      card.number = this.grabbedCard.number;
+      this.grabbedCard.number = tmpNumber;
+      this.$emit("card-swap");
     },
-    swapCards(cardDrag, cardTarget){
-      console.log(cardDrag)
-      console.log()
-      console.log(cardTarget)
+    swapCards(cardDrag, cardTarget) {
+      console.log(cardDrag);
+      console.log();
+      console.log(cardTarget);
     },
     fixCard(cardId) {
-      const card = this.cardList.find((card) => card.id === cardId);
+      const card = this.getCard(cardId);
       card.fixActive = !card.fixActive;
       this.$emit("card-fixed");
     },
     readCard(cardId) {
-      const card = this.cardList.find((card) => card.id === cardId);
+      const card = this.getCard(cardId);
       card.lesenActive = !card.lesenActive;
       this.flipCard(card);
       this.$emit("card-read");
     },
     saveCard(cardId) {
-      const card = this.cardList.find((card) => card.id === cardId);
+      const card = this.getCard(cardId);
+      if(this.isReadActive(card)){
       card.merkenActive = !card.merkenActive;
       this.flipCard(card);
       this.$emit("card-saved");
+      }
+      else{
+        //error
+        this.feedbackMessage = "Karte wird nicht gelesen"
+      }
     },
     flipCard(card) {
       if (card.lesenActive || card.merkenActive) {
@@ -145,6 +161,15 @@ export default {
       } else if (!card.lesenActive && !card.merkenActive) {
         card.cardFlipped = false;
       }
+    },
+    isReadActive(cardId) {
+      const card = this.getCard(cardId);
+      if (!card.lesenActive) return false;
+      else return true;
+    },
+    isReadActive(card) {
+      if (!card.lesenActive) return false;
+      else return true;
     },
   },
 };

@@ -181,6 +181,7 @@
         </div>
       </div>
     </div>
+
     <div class="navigation">
       <div class="prev" @click="previousPage">&#10094;</div>
       <span class="page-number">{{ pageNumber }}</span>
@@ -189,6 +190,9 @@
       ></span>
       <span class="page-number">11</span>
       <div class="next" @click="nextPage">&#10095;</div>
+    </div>
+    <div @click="skipTutorial" class="skip-tutorial">
+      Einführung überspringen
     </div>
   </div>
 </template>
@@ -239,8 +243,8 @@ export default {
           "Führen Sie drei Fixieroperationen durch um fortzufahren.";
         return;
       }
-      if(this.pageNumber == 11){
-        console.log("tutorial finsihed")
+      if (this.pageNumber == 11) {
+        console.log("tutorial finsihed");
         this.$emit("tutorial-finished");
         return;
       }
@@ -263,6 +267,9 @@ export default {
     },
     swapTutorialFinished() {
       this.swapFinished = true;
+    },
+    skipTutorial() {
+      this.$emit("skip-tutorial");
     },
   },
 };
@@ -302,7 +309,7 @@ export default {
   flex-shrink: 0;
 }
 
-.error-text{
+.error-text {
   padding-top: 10px;
   font-weight: bold;
   color: red;
@@ -314,6 +321,7 @@ export default {
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  background-color: green;
 }
 
 .prev,
@@ -342,5 +350,15 @@ export default {
 .active-dot {
   background-color: #006bac;
   opacity: 1;
+}
+
+.skip-tutorial {
+  cursor: pointer;
+  justify-content: right;
+  border: 1px solid black;
+}
+
+.skip-tutorial:hover {
+  text-decoration: underline;
 }
 </style>
