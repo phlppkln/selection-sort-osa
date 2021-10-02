@@ -161,8 +161,20 @@ const solutionPath4 = [
     { step: 4, cardId: 2, action: 2 },
 ]
 
+var curStep = 0;
+
 export function getSolutionPath(actionCounter, selectedCard, selectedAction) {
     console.log("getSolutionPath() \nactionCounter:" + actionCounter + ", selectedCard: " + selectedCard + ", selectedAction: " + selectedAction)
+    let action1 = solutionPath1.find((step) => step.step === curStep).action;
+    let action2 = solutionPath2.find((step) => step.step === curStep).action;
+    let action3 = solutionPath3.find((step) => step.step === curStep).action;
+    let action4 = solutionPath4.find((step) => step.step === curStep).action;
+
+    checkAction();
+}
+
+function checkAction(solutionAction, performedAction){
+    
 }
 
 export function getResponse(curStep, solutionPath){

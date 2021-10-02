@@ -116,7 +116,6 @@ export default {
       return this.cardList.find((card) => card.id === cardId);
     },
     dragstartHandler(e, card) {
-      sorting.getSolutionPath(this.actionCounter, card.id, "swap");
       this.grabbedCard = card;
     },
     dropHandler(e, card) {
@@ -125,6 +124,7 @@ export default {
       let tmpNumber = card.number;
       card.number = this.grabbedCard.number;
       this.grabbedCard.number = tmpNumber;
+      console.log(card.id, this.grabbedCard.id);
       this.$emit("card-swap");
     },
     swapCards(cardDrag, cardTarget) {
@@ -171,6 +171,7 @@ export default {
       if (!card.lesenActive) return false;
       else return true;
     },
+
   },
 };
 </script>
