@@ -76,18 +76,81 @@ const solutionPath1 = [
 
 // linkslesend, rechtsfixierend
 const solutionPath2 = [
-    { step: 1, cardId: 1, action: 1 },
-    { step: 2, cardId: 1, action: 2 },
-    { step: 3, cardId: 2, action: 1 },
-    { step: 4, cardId: 3, action: 1 },
+    { step: 1, action: {tool: 'L', card1: 1, card2: null}, response: 1 },
+    { step: 2, action: {tool: 'M', card1: 1, card2: null}, response: 2 },
+    { step: 3, action: {tool: 'L', card1: 2, card2: null}, response: 10 },
+    { step: 4, action: {tool: 'L', card1: 3, card2: null}, response: 0 }, 
+    { step: 5, action: {tool: 'L', card1: 4, card2: null}, response: 0 },
+    { step: 6, action: {tool: 'L', card1: 5, card2: null}, response: 3 },
+    { step: 7, action: {tool: 'T', card1: 1, card2: 5}, response: 4 },
+
+    { step: 8, action: {tool: 'F', card1: 5, card2: null}, response: 5 },
+    { step: 9, action: {tool: 'L', card1: 1, card2: null}, response: 0 },
+    { step: 10, action: {tool: 'M', card1: 1, card2: null}, response: 0 },
+    { step: 11, action: {tool: 'L', card1: 2, card2: null}, response: 0 },
+    { step: 12, action: {tool: 'M', card1: 2, card2: null}, response: 0 },
+    { step: 13, action: {tool: 'L', card1: 3, card2: null}, response: 0 },
+    { step: 14, action: {tool: 'L', card1: 4, card2: null}, response: 0 }, 
+    { step: 15, action: {tool: 'T', card1: 2, card2: 4}, response: 6 },
+
+    { step: 16, action: {tool: 'F', card1: 4, card2: null}, response: 0 },
+    { step: 17, action: {tool: 'L', card1: 1, card2: null}, response: 0 },
+    { step: 18, action: {tool: 'M', card1: 1, card2: null}, response: 0 },
+    { step: 19, action: {tool: 'L', card1: 2, card2: null}, response: 0 },
+    { step: 20, action: {tool: 'L', card1: 3, card2: null}, response: 0 },
+    { step: 21, action: {tool: 'T', card1: 1, card2: 3}, response: 7 },
+
+    { step: 22, action: {tool: 'F', card1: 3, card2: null}, response: 0 },
+    { step: 23, action: {tool: 'L', card1: 1, card2: null}, response: 0 },
+    { step: 24, action: {tool: 'M', card1: 1, card2: null}, response: 0 }, 
+    { step: 25, action: {tool: 'L', card1: 2, card2: null}, response: 0 },
+    { step: 26, action: {tool: 'T', card1: 2, card2: 1}, response: 0 },
+
+    { step: 27, action: {tool: 'F', card1: 2, card2: null}, response: 8 },
+    { step: 28, action: {tool: 'L', card1: 1, card2: null}, response: 0 },
+    { step: 29, action: {tool: 'M', card1: 1, card2: null}, response: 0 },
+    { step: 30, action: {tool: 'T', card1: 1, card2: 1}, response: 0 },
+    { step: 31, action: {tool: 'F', card1: 1, card2: null}, response: 9 }, 
 ]
 
 // rechtslesend, linksfixierend
 const solutionPath3 = [
-    { step: 1, cardId: 5, action: 1 },
-    { step: 2, cardId: 5, action: 2 },
-    { step: 3, cardId: 4, action: 1 },
-    { step: 4, cardId: 4, action: 2 },
+    { step: 1, action: {tool: 'L', card1: 5, card2: null}, response: 1 },
+    { step: 2, action: {tool: 'M', card1: 5, card2: null}, response: 2 },
+    { step: 3, action: {tool: 'L', card1: 4, card2: null}, response: 10 },
+    { step: 4, action: {tool: 'M', card1: 4, card2: null}, response: 0 }, 
+    { step: 5, action: {tool: 'L', card1: 3, card2: null}, response: 0 },
+    { step: 6, action: {tool: 'L', card1: 2, card2: null}, response: 0 },
+    { step: 7, action: {tool: 'L', card1: 1, card2: null}, response: 3 },
+    { step: 8, action: {tool: 'T', card1: 1, card2: 4}, response: 4 },
+
+    { step: 9, action: {tool: 'F', card1: 1, card2: null}, response: 5 },
+    { step: 10, action: {tool: 'L', card1: 5, card2: null}, response: 0 },
+    { step: 11, action: {tool: 'M', card1: 5, card2: null}, response: 0 },
+    { step: 12, action: {tool: 'L', card1: 4, card2: null}, response: 0 },
+    { step: 13, action: {tool: 'L', card1: 3, card2: null}, response: 0 },
+    { step: 14, action: {tool: 'M', card1: 3, card2: null}, response: 0 }, 
+    { step: 15, action: {tool: 'L', card1: 2, card2: null}, response: 0 },
+    { step: 16, action: {tool: 'T', card1: 2, card2: 3}, response: 6 },
+
+    { step: 17, action: {tool: 'F', card1: 2, card2: null}, response: 0 },
+    { step: 18, action: {tool: 'L', card1: 5, card2: null}, response: 0 },
+    { step: 19, action: {tool: 'M', card1: 5, card2: null}, response: 0 },
+    { step: 20, action: {tool: 'L', card1: 4, card2: null}, response: 0 },
+    { step: 21, action: {tool: 'L', card1: 3, card2: null}, response: 0 },
+    { step: 22, action: {tool: 'T', card1: 3, card2: 5}, response: 7 },
+
+    { step: 23, action: {tool: 'F', card1: 3, card2: null}, response: 0 },
+    { step: 24, action: {tool: 'L', card1: 5, card2: null}, response: 0 }, 
+    { step: 25, action: {tool: 'M', card1: 5, card2: null}, response: 0 },
+    { step: 26, action: {tool: 'L', card1: 4, card2: 1}, response: 0 },
+    { step: 27, action: {tool: 'T', card1: 4, card2: 5}, response: 0 },
+
+    { step: 28, action: {tool: 'F', card1: 4, card2: null}, response: 8 },
+    { step: 29, action: {tool: 'L', card1: 5, card2: null}, response: 0 },
+    { step: 30, action: {tool: 'M', card1: 5, card2: null}, response: 0 },
+    { step: 31, action: {tool: 'T', card1: 5, card2: 5}, response: 0 }, 
+    { step: 31, action: {tool: 'F', card1: 5, card2: null}, response: 9 }, 
 ]
 
 // rechtslesend, rechtsfixierend
