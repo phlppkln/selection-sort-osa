@@ -1,3 +1,5 @@
+import * as logging from "../scripts/logging"
+
 // Werkzeug ID 
 // - lesen = L
 // - merken = M
@@ -594,8 +596,8 @@ const solutionPath2 = [{
         step: 26,
         action: {
             tool: 'T',
-            card1: 2,
-            card2: 1
+            card1: 1,
+            card2: 2
         },
         response: 0
     },
@@ -1440,5 +1442,10 @@ function sendActionToServer(entry) {
  * @returns feedback mesage of last action
  */
 export function getFeedbackMessage() {
+    addNewLogEntry("test");
     return feedbackMessage;
+}
+
+function addNewLogEntry (logEntry) {
+    logging.appendLogEntry(logEntry);
 }
