@@ -54,36 +54,7 @@
       <div style="width: 100%; background-color: white; margin: 20px">
         LOGGING
       </div>
-      <table border="1" width="100%" height="100%">
-        <thead>
-          <th>ID</th>
-          <th>PersonID</th>
-          <th>Datum</th>
-          <th>Lösungsweg</th>
-          <th>SchrittID</th>
-          <th>Soll-Werkzeug ID</th>
-          <th>Ist-Werkzeug ID</th>
-          <th>Soll-Karten ID</th>
-          <th>Ist-Karten ID</th>
-          <th>Anzahl Fehler Lösungsschritt</th>
-          <th>Anzahl Fehler Gesamt</th>
-          <th>Kommentar</th>
-        </thead>
-        <tr v-for="item in log" :key="item.id">
-          <td>{{ item.id }}</td>
-          <td>{{ item.personID }}</td>
-          <td>{{ item.date }}</td>
-          <td>{{ item.solutionPath }}</td>
-          <td>{{ item.stepID }}</td>
-          <td>{{ item.targetToolID }}</td>
-          <td>{{ item.realToolID }}</td>
-          <td>{{ item.targetCardID }}</td>
-          <td>{{ item.realCardID }}</td>
-          <td>{{ item.errorCountStep }}</td>
-          <td>{{ item.errorCountTotal }}</td>
-          <td>{{ item.comment }}</td>
-        </tr>
-      </table>
+      <Log></Log>
     </div>
   </div>
 </template>
@@ -93,6 +64,7 @@ import Header from "./components/Header.vue";
 import Intro from "./components/Intro.vue";
 import Assignment from "./components/Assignment.vue";
 import AssignmentV2 from "./components/AssignmentV2.vue";
+import Log from "./components/Log.vue";
 
 export default {
   name: "App",
@@ -101,6 +73,7 @@ export default {
     Intro,
     Assignment,
     AssignmentV2,
+    Log,
   },
   data() {
     return {
@@ -114,27 +87,6 @@ export default {
       introSkipped: false,
       introFinished: false,
       introRestarts: 0,
-      startTime: null,
-      endTime: null,
-      log: [
-        {
-          id: 0,
-          personID: 0,
-          date: "2021-09-01, 15:01:05",
-          solutionPath: 1,
-          stepID: 1,
-          targetToolID: 1,
-          realToolID: 1,
-          targetCardID: 1,
-          realCardID: 1,
-          errorCountStep: 0,
-          errorCountTotal: 0,
-          comment: "Rückmeldung für richtige Lösung wird ausgegeben",
-        },
-      ],
-      nextLogID: 1,
-      selectedSolutionPath: 0,
-      
     };
   },
   methods: {
@@ -171,14 +123,6 @@ export default {
       this.showIntro = false;
       this.showAssignment = true;
     },
-    addNewLogEntry: function(){
-      this.log.push({
-        id: this.nextLogID++,
-        personID: 0,
-        date: new Date.toLocaleString(),
-        solutionPath: this.selectedSolutionPath,
-      })
-    }
   },
 };
 </script>
