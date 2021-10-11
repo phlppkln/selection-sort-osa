@@ -41,14 +41,13 @@
     </div>
   </div>
 
-  <div class="feedback-field">Hier wird das Beispiel bearbeitet
+  <div class="feedback-field">
     <p>{{ feedbackMessage }}</p>
   </div>
 </template>
 
 <script>
-import * as sorting from "../assets/scripts/sorting-algorithm.js"
-import { ref } from "vue";
+import * as sorting from "../assets/scripts/sorting-algorithm.js";
 import Card from "./Card.vue";
 
 export default {
@@ -62,7 +61,6 @@ export default {
         {
           id: 1,
           number: 5,
-          slotPosition: 1,
           lesenActive: false,
           merkenActive: false,
           fixActive: false,
@@ -71,7 +69,6 @@ export default {
         {
           id: 2,
           number: 4,
-          slotPosition: 2,
           lesenActive: false,
           merkenActive: false,
           fixActive: false,
@@ -80,7 +77,6 @@ export default {
         {
           id: 3,
           number: 2,
-          slotPosition: 3,
           lesenActive: false,
           merkenActive: false,
           fixActive: false,
@@ -89,7 +85,6 @@ export default {
         {
           id: 4,
           number: 1,
-          slotPosition: 4,
           lesenActive: false,
           merkenActive: false,
           fixActive: false,
@@ -98,7 +93,6 @@ export default {
         {
           id: 5,
           number: 3,
-          slotPosition: 5,
           lesenActive: false,
           merkenActive: false,
           fixActive: false,
@@ -107,12 +101,10 @@ export default {
       ],
       grabbedCard: null,
       feedbackMessage: "",
-      selectedSolutionPath: 0,
-      actionCounter: 0,
     };
   },
   methods: {
-    getCard(cardId){
+    getCard(cardId) {
       return this.cardList.find((card) => card.id === cardId);
     },
     dragstartHandler(e, card) {
@@ -124,36 +116,75 @@ export default {
       let tmpNumber = card.number;
       card.number = this.grabbedCard.number;
       this.grabbedCard.number = tmpNumber;
-      console.log(card.id, this.grabbedCard.id);
+      let smallerId = Math.min(card.id, this.grabbedCard.id);
+      let biggerId = Math.max(card.id, this.grabbedCard.id);
+      this.performAction("T", smallerId, biggerId);
       this.$emit("card-swap");
-    },
-    swapCards(cardDrag, cardTarget) {
-      console.log(cardDrag);
-      console.log();
-      console.log(cardTarget);
     },
     fixCard(cardId) {
       const card = this.getCard(cardId);
+      //TODO: change to distinction between if card is already fixed
+      if (!card.fixActive) {
+        //card was not fixed
+        this.performAction("F", cardId, null);
+      } else {
+        //card was fixed
+        //TODO: do something
+      }
       card.fixActive = !card.fixActive;
       this.$emit("card-fixed");
     },
     readCard(cardId) {
       const card = this.getCard(cardId);
-      card.lesenActive = !card.lesenActive;
-      this.flipCard(card);
+      this.unreadCards();
+      if (!card.lesenActive) {
+        // karte wird nicht gelesen
+        this.performAction("L", cardId, null);
+      } else {
+        //karte wird bereits gelesen --> nicht erfassen?
+        // TODO: what happens when card is already read
+        this.feedbackMessage = "Bereits gelesene karte wird wieder umgedreht";
+      }
+      card.lesenActive = !card.lesenActive; // lesenActive umkehren
+      this.flipCard(card); // karte umdrehen
       this.$emit("card-read");
+    },
+    unreadCards() {
+      this.cardList.forEach((card) => {
+        if (card.lesenActive) {
+          card.lesenActive = false;
+          this.flipCard(card);
+        }
+      });
     },
     saveCard(cardId) {
       const card = this.getCard(cardId);
-      if(this.isReadActive(card)){
-      card.merkenActive = !card.merkenActive;
-      this.flipCard(card);
-      this.$emit("card-saved");
+      if (card.lesenActive) {
+        this.unsaveCards();
+        if (!card.merkenActive) {
+          // karte wird nicht gelesen
+          this.performAction("M", cardId, null);
+        } else {
+          //karte wird bereits gemerkt --> nicht erfassen?
+          // TODO: what happens when card is already saved
+          this.feedbackMessage = "Bereits gemerkte karte wird wieder umgedreht";
+        }
+
+        card.merkenActive = !card.merkenActive;
+        this.flipCard(card);
+        this.$emit("card-saved");
+      } else {
+        //TODO: error
+        this.feedbackMessage = "Karte wird nicht gelesen";
       }
-      else{
-        //error
-        this.feedbackMessage = "Karte wird nicht gelesen"
-      }
+    },
+    unsaveCards() {
+      this.cardList.forEach((card) => {
+        if (card.merkenActive) {
+          card.merkenActive = false;
+          this.flipCard(card);
+        }
+      });
     },
     flipCard(card) {
       if (card.lesenActive || card.merkenActive) {
@@ -162,16 +193,12 @@ export default {
         card.cardFlipped = false;
       }
     },
-    isReadActive(cardId) {
-      const card = this.getCard(cardId);
-      if (!card.lesenActive) return false;
-      else return true;
+    performAction(tool, card1, card2) {
+      let action = { tool: tool, card1: card1, card2: card2 }; //create action
+      sorting.actionPerformed(action); // handle action
+      //set feedbackMessage
+      this.feedbackMessage = sorting.getFeedbackMessage();
     },
-    isReadActive(card) {
-      if (!card.lesenActive) return false;
-      else return true;
-    },
-
   },
 };
 </script>
