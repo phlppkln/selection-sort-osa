@@ -119,6 +119,8 @@ export default {
       let smallerId = Math.min(card.id, this.grabbedCard.id);
       let biggerId = Math.max(card.id, this.grabbedCard.id);
       this.performAction("T", smallerId, biggerId);
+      this.unreadCards()
+      this.unsaveCards()
       this.$emit("card-swap");
     },
     fixCard(cardId) {
