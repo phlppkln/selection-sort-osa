@@ -14,7 +14,9 @@
 
 <script>
 export default {
-  props: ['showRestartIntro'],
+  props: {
+    showRestartIntro: Boolean,
+  },
   emits: ["restart-intro"],
   methods: {
     restartIntro() {
@@ -40,10 +42,6 @@ export default {
   text-align: right;
   display: flex;
   flex-flow: column nowrap;
-}
-
-
-.header-btn {
 }
 
 .header-link {
