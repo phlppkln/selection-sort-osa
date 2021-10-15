@@ -41,18 +41,19 @@
     </div>
   </div>
 
-  <div class="feedback-field">
-    <p>{{ feedbackMessage }}</p>
-  </div>
+  <FeedbackField :feedbackMessage="feedbackMessage" :lastActionValid="lastActionValid" :action="lastAction">
+  </FeedbackField>
 </template>
 
 <script>
 import * as sorting from "../assets/scripts/sorting-algorithm.js";
 import Card from "./Card.vue";
+import FeedbackField from "./FeedbackField.vue";
 
 export default {
   components: {
     Card,
+    FeedbackField,
   },
   emits: ["card-fixed", "card-saved", "card-read", "card-swap"],
   data() {
@@ -101,6 +102,8 @@ export default {
       ],
       grabbedCard: null,
       feedbackMessage: "",
+      lastActionValid: true,
+      lastAction: null
     };
   },
   methods: {
@@ -119,8 +122,8 @@ export default {
       let smallerId = Math.min(card.id, this.grabbedCard.id);
       let biggerId = Math.max(card.id, this.grabbedCard.id);
       this.performAction("T", smallerId, biggerId);
-      this.unreadCards()
-      this.unsaveCards()
+      this.unreadCards();
+      this.unsaveCards();
       this.$emit("card-swap");
     },
     fixCard(cardId) {
@@ -145,7 +148,6 @@ export default {
       } else {
         //karte wird bereits gelesen --> nicht erfassen?
         // TODO: what happens when card is already read
-        this.feedbackMessage = "Bereits gelesene karte wird wieder umgedreht";
       }
       card.lesenActive = !card.lesenActive; // lesenActive umkehren
       this.flipCard(card); // karte umdrehen
@@ -197,7 +199,15 @@ export default {
     },
     performAction(tool, card1, card2) {
       let action = { tool: tool, card1: card1, card2: card2 }; //create action
-      sorting.actionPerformed(action); // handle action
+      console.log(this.lastAction);
+      if (sorting.actionPerformed(action)) {
+        //valid action
+        this.lastActionValid = true;
+        this.lastAction = action;
+        console.log(this.lastAction);
+      } else{
+        this.lastActionValid = false;
+      }
       //set feedbackMessage
       this.feedbackMessage = sorting.getFeedbackMessage();
     },
@@ -214,12 +224,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.feedback-field {
-  border: 1px solid black;
-  height: 200px;
-  width: 100%;
 }
 
 .fixieren-container {
@@ -277,6 +281,7 @@ export default {
   cursor: pointer;
   margin: 10px;
 }
+
 .readCard {
   background-color: white;
 }
