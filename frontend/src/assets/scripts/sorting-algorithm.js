@@ -1275,109 +1275,30 @@ const solutionPath4 = [{
     },
 ]
 
-// count number of matching actions (performed and solution) in each path 
-// key of map identifies the path
-// the first path with 5 matching actions is selected
-const pathConsensus = new Map();
-pathConsensus.set(1, 0);
-pathConsensus.set(2, 0);
-pathConsensus.set(3, 0);
-pathConsensus.set(4, 0);
 
-var selectedSolutionPath = 0;
+var currentPathStep = 0;
+var selectedReadDirection;
+var selectedFixDirection;
 var feedbackMessage = "";
 
-/**
- * Checks if the performed action and solution action match. If they match the step counter for this path is increased in pathConsensus.
- * @param {Object} solutionAction 
- * @param {Object} performedAction 
- * @param {int} checkedPath 
- * @returns {boolean} true if the performed action matches the solution action otherwise returns false 
- */
-function checkAction(solutionAction, performedAction, checkedPath) {
-    if (solutionAction.tool == performedAction.tool && solutionAction.card1 == performedAction.card1 && solutionAction.card2 == performedAction.card2) {
-        //valid action in checkedPath performed --> increase counter of path consensus of checked path
-        let newValue = pathConsensus.get(checkedPath) + 1
-        pathConsensus.set(checkedPath, newValue);
-        return true;
-    }
-    return false;
-}
-
-/**
- * Returns the string from responses matching with the current step of the solution.
- * @param {int} solutionPath selectedSolutionPath
- * @returns {String} response of current step in selected solution path
- */
-function setValidFeedbackMessage(solutionPath) {
-    console.log(solutionPath)
-    printPathConsensus()
-    switch (solutionPath) {
-        case 1:
-            feedbackMessage = responses[solutionPath1.find((solStep) => solStep.step === pathConsensus.get(solutionPath)).response]
-            return;
-        case 2:
-            feedbackMessage = responses[solutionPath2.find((solStep) => solStep.step === pathConsensus.get(solutionPath)).response];
-            return;
-        case 3:
-            feedbackMessage = responses[solutionPath3.find((solStep) => solStep.step === pathConsensus.get(solutionPath)).response];
-            return;
-        case 4:
-            feedbackMessage = responses[solutionPath4.find((solStep) => solStep.step === pathConsensus.get(solutionPath)).response];
-            return;
-        default:
-            console.log("no valid solution path")
-            throw new Error("No valid solution path detected");
-    }
-}
 
 /**
  * Handles the action perfomed by the user and passes the action to the server.
  * @param {Object} action performed action of the user (card1 is always the card with the smaller id)
- * @returns {String} response of the performed action depending on the set solution path
  */
 export function actionPerformed(action) {
-    //1. check if a solution path is already set
-    //2a. if yes -> check if the action matches the solution path (valid/invalid action)
-    //2b. if no -> check if the action matches any solution path (valid/invalid action)
+    //console.log(action)
 
-    console.log(action)
-
-    let validAction = checkIfValidAction(action);
-
-    if (validAction) {
-        console.log("Valid action perfomed");
-        if (selectedSolutionPath == 0) {
-            //path is not selected --> check if path is now selected
-            checkSolutionPath();
-            //messages until path selection are the same
-            setValidFeedbackMessage(1);
-        } else {
-            //path is selected --> get message for selectedSolutionPath
-            setValidFeedbackMessage(selectedSolutionPath);
-        }
-    } else {
+    if (!checkIfValidAction(action)) {
+        console.log("Invalid action perfomed");
         //TODO: handle invalid action
         feedbackMessage = "Aktion nicht gültig!"
-        console.log("Invalid action performed");
+        //TODO: return message for invalid action and add undo action
+        return false;
     }
+    return true;
 }
 
-function checkSolutionPath() {
-    for (let path = 1; path <= 4; path++) {
-        if (pathConsensus.get(path) >= 4) {
-            console.log("Set selectedSolutionPath to path" + path);
-            // step 4 of path performed --> set path
-            selectedSolutionPath = path;
-        }
-    }
-}
-
-function printPathConsensus() {
-    for (const [key, value] of pathConsensus.entries()) {
-        console.log("Path: " + key + " --> Step: " + value)
-    }
-}
 
 /**
  * checks if an action is valid 
@@ -1385,52 +1306,141 @@ function printPathConsensus() {
  * @returns {Boolean} true if action is valid or false if action is invalid
  */
 function checkIfValidAction(performedAction) {
-    //get action of solutions to compare to --> current step in path + 1
-    let nextActionSolution1 = solutionPath1.find((step) => step.step === pathConsensus.get(1) + 1).action;
-    let nextActionSolution2 = solutionPath2.find((step) => step.step === pathConsensus.get(2) + 1).action;
-    let nextActionSolution3 = solutionPath3.find((step) => step.step === pathConsensus.get(3) + 1).action;
-    let nextActionSolution4 = solutionPath4.find((step) => step.step === pathConsensus.get(4) + 1).action;
 
-    let validAction = false;
-    if (checkAction(nextActionSolution1, performedAction, 1)) validAction = true;
-    if (checkAction(nextActionSolution2, performedAction, 2)) validAction = true;
-    if (checkAction(nextActionSolution3, performedAction, 3)) validAction = true;
-    if (checkAction(nextActionSolution4, performedAction, 4)) validAction = true;
+    if (!selectedReadDirection) {
+        // read direction and fix direction not set ==> step 1
+        console.log("possible paths 1,2,3,4")
+        return setReadDirection(performedAction);
+    } else if (selectedReadDirection && !selectedFixDirection) {
+        // read direction is set; fix direction not set ==> step 2-4
+        return setFixDirection(performedAction);
 
-    return validAction
+    } else if (selectedReadDirection && selectedFixDirection) {
+        // read direction and fix direction are set ==> step 4+
+        if (selectedReadDirection == 'L') {
+            if (selectedFixDirection == 'L') {
+                console.log("possible paths 1")
+                let actionSolutionLinksLesendLinksFixierend = solutionPath1.find((step) => step.step === currentPathStep + 1).action;
+                setValidFeedbackMessage(1);
+                return compareAction(actionSolutionLinksLesendLinksFixierend, performedAction)
+            } else if (selectedFixDirection == 'R') {
+                console.log("possible paths 2")
+                let actionSolutionLinksLesendRechtsFixierend = solutionPath2.find((step) => step.step === currentPathStep + 1).action;
+                setValidFeedbackMessage(2);
+                return compareAction(actionSolutionLinksLesendRechtsFixierend, performedAction)
+            }
+        } else if (selectedReadDirection == 'R') {
+            if (selectedFixDirection == 'L') {
+                console.log("possible paths 3")
+                let actionSolutionRechtsLesendLinksFixierend = solutionPath3.find((step) => step.step === currentPathStep + 1).action;
+                setValidFeedbackMessage(3);
+                return compareAction(actionSolutionRechtsLesendLinksFixierend, performedAction)
+            } else if (selectedFixDirection == 'R') {
+                console.log("possible paths 4")
+                let actionSolutionRechtsLesendRechtsFixierend = solutionPath4.find((step) => step.step === currentPathStep + 1).action;
+                setValidFeedbackMessage(4);
+                return compareAction(actionSolutionRechtsLesendRechtsFixierend, performedAction)
+            }
+        }
+        return false;
+    }
+    return false
+}
+
+function setReadDirection(performedAction){
+    let actionSolutionLinksLesend = solutionPath1.find((step) => step.step === currentPathStep + 1).action;
+    let actionSolutionRechtsLesend = solutionPath3.find((step) => step.step === currentPathStep + 1).action;
+
+    if (compareAction(actionSolutionLinksLesend, performedAction)) {
+        selectedReadDirection = 'L'
+        setValidFeedbackMessage(1);
+        return true;
+    }
+    if (compareAction(actionSolutionRechtsLesend, performedAction)) {
+        selectedReadDirection = 'R'
+        setValidFeedbackMessage(3);
+        return true;
+    }
+    return false;
+}
+
+function setFixDirection(performedAction){    
+    if (selectedReadDirection == 'L') {
+        console.log("possible paths 1,2")
+        let actionSolutionLinksLesendLinksFixierend = solutionPath1.find((step) => step.step === currentPathStep + 1).action;
+        let actionSolutionLinksLesendRechtsFixierend = solutionPath2.find((step) => step.step === currentPathStep + 1).action;
+
+        if (compareAction(actionSolutionLinksLesendLinksFixierend, performedAction)) {
+            if (currentPathStep >= 4) selectedFixDirection = 'L'
+            setValidFeedbackMessage(1);
+            return true;
+        }
+        if (compareAction(actionSolutionLinksLesendRechtsFixierend, performedAction)) {
+            if (currentPathStep >= 4) selectedFixDirection = 'R'
+            setValidFeedbackMessage(2);
+            return true;
+        }
+        return false;
+    }
+    if (selectedReadDirection == 'R') {
+        
+        console.log("possible paths 3,4")
+        let actionSolutionRechtsLesendLinksFixierend = solutionPath3.find((step) => step.step === currentPathStep + 1).action;
+        let actionSolutionRechtsLesendRechtsFixierend = solutionPath4.find((step) => step.step === currentPathStep + 1).action;
+
+        if (compareAction(actionSolutionRechtsLesendLinksFixierend, performedAction)) {
+            if (currentPathStep >= 4) selectedFixDirection = 'L'
+            setValidFeedbackMessage(3);
+            return true;
+        }
+        if (compareAction(actionSolutionRechtsLesendRechtsFixierend, performedAction)) {
+            if (currentPathStep >= 4) selectedFixDirection = 'R'
+            setValidFeedbackMessage(4);
+            return true;
+        }
+        return false;
+    }
 }
 
 /**
- * checks if an action is valid 
- * @param {Object} performedAction action that is checked for validity
- * @returns {Boolean} true if action is valid or false if action is invalid
+ * Checks if the performed action and solution action match. If they match the step counter is increased.
+ * @param {Object} solutionAction 
+ * @param {Object} performedAction 
+ * @returns {boolean} true if the performed action matches the solution action otherwise returns false 
  */
-function checkIfValidActionWithPath(performedAction, path) {
-    let nextActionSolution;
-    switch (path) {
-        case 0:
-            nextActionSolution = solutionPath1.find((step) => step.step === pathConsensus.get(path) + 1).action;
-            break;
-        case 1:
-            nextActionSolution = solutionPath1.find((step) => step.step === pathConsensus.get(path) + 1).action;
-            break;
-        case 2:
-            nextActionSolution = solutionPath2.find((step) => step.step === pathConsensus.get(path) + 1).action;
-            break;
-        case 3:
-            nextActionSolution = solutionPath3.find((step) => step.step === pathConsensus.get(path) + 1).action;
-            break;
-        case 4:
-            nextActionSolution = solutionPath4.find((step) => step.step === pathConsensus.get(path) + 1).action;
-            break;
-        default:
-            console.log("no valid solution path")
-            throw new Error("No valid solution path detected");
-
+function compareAction(solutionAction, performedAction) {
+    if (solutionAction.tool == performedAction.tool && solutionAction.card1 == performedAction.card1 && solutionAction.card2 == performedAction.card2) {
+        currentPathStep++;
+        return true;
     }
-    return checkAction(nextActionSolution, performedAction, path);
+    return false;
 }
 
+
+
+/**
+ * Returns the string from responses matching with the current step of the solution.
+ * @param {int} solutionPath selectedSolutionPath
+ * @returns {String} response of current step in selected solution path
+ */
+function setValidFeedbackMessage(solutionPath) {
+    switch (solutionPath) {
+        case 1:
+            feedbackMessage = responses[solutionPath1.find((solStep) => solStep.step === currentPathStep).response]
+            return;
+        case 2:
+            feedbackMessage = responses[solutionPath2.find((solStep) => solStep.step === currentPathStep).response];
+            return;
+        case 3:
+            feedbackMessage = responses[solutionPath3.find((solStep) => solStep.step === currentPathStep).response];
+            return;
+        case 4:
+            feedbackMessage = responses[solutionPath4.find((solStep) => solStep.step === currentPathStep).response];
+            return;
+        default:
+            throw new Error("No valid solution path detected");
+    }
+}
 
 function sendActionToServer(entry) {
     //TODO: save action in database
@@ -1442,10 +1452,10 @@ function sendActionToServer(entry) {
  * @returns feedback mesage of last action
  */
 export function getFeedbackMessage() {
-    addNewLogEntry("test");
+    //addNewLogEntry("test");
     return feedbackMessage;
 }
 
-function addNewLogEntry (logEntry) {
+function addNewLogEntry(logEntry) {
     logging.appendLogEntry(logEntry);
 }
