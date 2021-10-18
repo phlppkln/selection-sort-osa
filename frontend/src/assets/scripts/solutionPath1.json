@@ -1,329 +1,329 @@
 [{
-    "step": 1,
-    "action": {
-        "tool": "L",
-        "card1": 1,
-        "card2": null
+        "step": 1,
+        "action": {
+            "tool": "L",
+            "card1": 1,
+            "card2": null
+        },
+        "response": 1
     },
-    "response": 1
-},
-{
-    "step": 2,
-    "action": {
-        "tool": "M",
-        "card1": 1,
-        "card2": null
+    {
+        "step": 2,
+        "action": {
+            "tool": "M",
+            "card1": 1,
+            "card2": null
+        },
+        "response": 2
     },
-    "response": 2
-},
-{
-    "step": 3,
-    "action": {
-        "tool": 'L',
-        "card1": 2,
-        "card2": null
+    {
+        "step": 3,
+        "action": {
+            "tool": "L",
+            "card1": 2,
+            "card2": null
+        },
+        "response": 10
     },
-    "response": 10
-},
-{
-    "step": 4,
-    "action": {
-        "tool": 'M',
-        "card1": 2,
-        "card2": null
+    {
+        "step": 4,
+        "action": {
+            "tool": "M",
+            "card1": 2,
+            "card2": null
+        },
+        "response": 0
     },
-    "response": 0
-},
-{
-    "step": 5,
-    "action": {
-        "tool": 'L',
-        "card1": 3,
-        "card2": null
+    {
+        "step": 5,
+        "action": {
+            "tool": "L",
+            "card1": 3,
+            "card2": null
+        },
+        "response": 0
     },
-    "response": 0
-},
-{
-    "step": 6,
-    "action": {
-        "tool": 'M',
-        "card1": 3,
-        "card2": null
+    {
+        "step": 6,
+        "action": {
+            "tool": "M",
+            "card1": 3,
+            "card2": null
+        },
+        "response": 0
     },
-    "response": 0
-},
-{
-    step: 7,
-    action: {
-        tool: 'L',
-        card1: 4,
-        card2: null
+    {
+        "step": 7,
+        "action": {
+            "tool": "L",
+            "card1": 4,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 8,
-    action: {
-        tool: 'M',
-        card1: 4,
-        card2: null
+    {
+        "step": 8,
+        "action": {
+            "tool": "M",
+            "card1": 4,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 9,
-    action: {
-        tool: 'L',
-        card1: 5,
-        card2: null
+    {
+        "step": 9,
+        "action": {
+            "tool": "L",
+            "card1": 5,
+            "card2": null
+        },
+        "response": 3
     },
-    response: 3
-},
-{
-    step: 10,
-    action: {
-        tool: 'T',
-        card1: 1,
-        card2: 4
+    {
+        "step": 10,
+        "action": {
+            "tool": "T",
+            "card1": 1,
+            "card2": 4
+        },
+        "response": 4
     },
-    response: 4
-},
 
-{
-    step: 11,
-    action: {
-        tool: 'F',
-        card1: 1,
-        card2: null
+    {
+        "step": 11,
+        "action": {
+            "tool": "F",
+            "card1": 1,
+            "card2": null
+        },
+        "response": 5
     },
-    response: 5
-},
-{
-    step: 12,
-    action: {
-        tool: 'L',
-        card1: 2,
-        card2: null
+    {
+        "step": 12,
+        "action": {
+            "tool": "L",
+            "card1": 2,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 13,
-    action: {
-        tool: 'M',
-        card1: 2,
-        card2: null
+    {
+        "step": 13,
+        "action": {
+            "tool": "M",
+            "card1": 2,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 14,
-    action: {
-        tool: 'L',
-        card1: 3,
-        card2: null
+    {
+        "step": 14,
+        "action": {
+            "tool": "L",
+            "card1": 3,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 15,
-    action: {
-        tool: 'M',
-        card1: 3,
-        card2: null
+    {
+        "step": 15,
+        "action": {
+            "tool": "M",
+            "card1": 3,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 16,
-    action: {
-        tool: 'L',
-        card1: 4,
-        card2: null
+    {
+        "step": 16,
+        "action": {
+            "tool": "L",
+            "card1": 4,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 17,
-    action: {
-        tool: 'L',
-        card1: 5,
-        card2: null
+    {
+        "step": 17,
+        "action": {
+            "tool": "L",
+            "card1": 5,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 18,
-    action: {
-        tool: 'T',
-        card1: 2,
-        card2: 3
+    {
+        "step": 18,
+        "action": {
+            "tool": "T",
+            "card1": 2,
+            "card2": 3
+        },
+        "response": 6
     },
-    response: 6
-},
 
-{
-    step: 19,
-    action: {
-        tool: 'F',
-        card1: 2,
-        card2: null
+    {
+        "step": 19,
+        "action": {
+            "tool": "F",
+            "card1": 2,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 20,
-    action: {
-        tool: 'L',
-        card1: 3,
-        card2: null
+    {
+        "step": 20,
+        "action": {
+            "tool": "L",
+            "card1": 3,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 21,
-    action: {
-        tool: 'M',
-        card1: 3,
-        card2: null
+    {
+        "step": 21,
+        "action": {
+            "tool": "M",
+            "card1": 3,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 22,
-    action: {
-        tool: 'L',
-        card1: 4,
-        card2: null
+    {
+        "step": 22,
+        "action": {
+            "tool": "L",
+            "card1": 4,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 23,
-    action: {
-        tool: 'M',
-        card1: 5,
-        card2: null
+    {
+        "step": 23,
+        "action": {
+            "tool": "M",
+            "card1": 5,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 24,
-    action: {
-        tool: 'L',
-        card1: 5,
-        card2: null
+    {
+        "step": 24,
+        "action": {
+            "tool": "L",
+            "card1": 5,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 25,
-    action: {
-        tool: 'T',
-        card1: 3,
-        card2: 5
+    {
+        "step": 25,
+        "action": {
+            "tool": "T",
+            "card1": 3,
+            "card2": 5
+        },
+        "response": 7
     },
-    response: 7
-},
 
-{
-    step: 26,
-    action: {
-        tool: 'F',
-        card1: 3,
-        card2: null
+    {
+        "step": 26,
+        "action": {
+            "tool": "F",
+            "card1": 3,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 27,
-    action: {
-        tool: 'L',
-        card1: 4,
-        card2: null
+    {
+        "step": 27,
+        "action": {
+            "tool": "L",
+            "card1": 4,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 28,
-    action: {
-        tool: 'M',
-        card1: 4,
-        card2: null
+    {
+        "step": 28,
+        "action": {
+            "tool": "M",
+            "card1": 4,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 29,
-    action: {
-        tool: 'L',
-        card1: 5,
-        card2: null
+    {
+        "step": 29,
+        "action": {
+            "tool": "L",
+            "card1": 5,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 30,
-    action: {
-        tool: 'M',
-        card1: 5,
-        card2: null
+    {
+        "step": 30,
+        "action": {
+            "tool": "M",
+            "card1": 5,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 31,
-    action: {
-        tool: 'T',
-        card1: 4,
-        card2: 5
+    {
+        "step": 31,
+        "action": {
+            "tool": "T",
+            "card1": 4,
+            "card2": 5
+        },
+        "response": 0
     },
-    response: 0
-},
 
-{
-    step: 32,
-    action: {
-        tool: 'F',
-        card1: 4,
-        card2: null
+    {
+        "step": 32,
+        "action": {
+            "tool": "F",
+            "card1": 4,
+            "card2": null
+        },
+        "response": 8
     },
-    response: 8
-},
-{
-    step: 33,
-    action: {
-        tool: 'L',
-        card1: 5,
-        card2: null
+    {
+        "step": 33,
+        "action": {
+            "tool": "L",
+            "card1": 5,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 34,
-    action: {
-        tool: 'M',
-        card1: 5,
-        card2: null
+    {
+        "step": 34,
+        "action": {
+            "tool": "M",
+            "card1": 5,
+            "card2": null
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 35,
-    action: {
-        tool: 'T',
-        card1: 5,
-        card2: 5
+    {
+        "step": 35,
+        "action": {
+            "tool": "T",
+            "card1": 5,
+            "card2": 5
+        },
+        "response": 0
     },
-    response: 0
-},
-{
-    step: 36,
-    action: {
-        tool: 'F',
-        card1: 5,
-        card2: null
-    },
-    response: 9
-},
+    {
+        "step": 36,
+        "action": {
+            "tool": "F",
+            "card1": 5,
+            "card2": null
+        },
+        "response": 9
+    }
 ]
