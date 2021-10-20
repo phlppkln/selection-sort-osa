@@ -1287,13 +1287,12 @@ var feedbackMessage = "";
  * @param {Object} action performed action of the user (card1 is always the card with the smaller id)
  */
 export function actionPerformed(action) {
-    //console.log(action)
+    let validActionPerformed = checkIfValidAction(action);
+    setValidFeedbackMessage();
 
-    if (!checkIfValidAction(action)) {
-        console.log("Invalid action perfomed");
+    if (!validActionPerformed) {
         //TODO: handle invalid action
         feedbackMessage = "Aktion nicht gültig!"
-        //TODO: return message for invalid action and add undo action
         return false;
     }
     return true;
@@ -1307,44 +1306,44 @@ export function actionPerformed(action) {
  */
 function checkIfValidAction(performedAction) {
 
+    console.log("before: read direction " + selectedReadDirection + "; fix direction " + selectedFixDirection)
+
+    let validStep = false;
+
     if (!selectedReadDirection) {
         // read direction and fix direction not set ==> step 1
-        console.log("possible paths 1,2,3,4")
-        return setReadDirection(performedAction);
+        validStep = setReadDirection(performedAction);
     } else if (selectedReadDirection && !selectedFixDirection) {
         // read direction is set; fix direction not set ==> step 2-4
-        return setFixDirection(performedAction);
+        validStep = setFixDirection(performedAction);
 
     } else if (selectedReadDirection && selectedFixDirection) {
         // read direction and fix direction are set ==> step 4+
         if (selectedReadDirection == 'L') {
             if (selectedFixDirection == 'L') {
-                console.log("possible paths 1")
                 let actionSolutionLinksLesendLinksFixierend = solutionPath1.find((step) => step.step === currentPathStep + 1).action;
+                validStep = compareAction(actionSolutionLinksLesendLinksFixierend, performedAction)
                 setValidFeedbackMessage(1);
-                return compareAction(actionSolutionLinksLesendLinksFixierend, performedAction)
             } else if (selectedFixDirection == 'R') {
-                console.log("possible paths 2")
                 let actionSolutionLinksLesendRechtsFixierend = solutionPath2.find((step) => step.step === currentPathStep + 1).action;
+                validStep = compareAction(actionSolutionLinksLesendRechtsFixierend, performedAction)
                 setValidFeedbackMessage(2);
-                return compareAction(actionSolutionLinksLesendRechtsFixierend, performedAction)
             }
         } else if (selectedReadDirection == 'R') {
             if (selectedFixDirection == 'L') {
-                console.log("possible paths 3")
                 let actionSolutionRechtsLesendLinksFixierend = solutionPath3.find((step) => step.step === currentPathStep + 1).action;
+                validStep = compareAction(actionSolutionRechtsLesendLinksFixierend, performedAction)
                 setValidFeedbackMessage(3);
-                return compareAction(actionSolutionRechtsLesendLinksFixierend, performedAction)
             } else if (selectedFixDirection == 'R') {
-                console.log("possible paths 4")
                 let actionSolutionRechtsLesendRechtsFixierend = solutionPath4.find((step) => step.step === currentPathStep + 1).action;
+                validStep = compareAction(actionSolutionRechtsLesendRechtsFixierend, performedAction)
                 setValidFeedbackMessage(4);
-                return compareAction(actionSolutionRechtsLesendRechtsFixierend, performedAction)
             }
         }
-        return false;
+        validStep = false;
     }
-    return false
+    console.log("after: read direction " + selectedReadDirection + "; fix direction " + selectedFixDirection)
+    return validStep
 }
 
 function setReadDirection(performedAction){
@@ -1366,7 +1365,6 @@ function setReadDirection(performedAction){
 
 function setFixDirection(performedAction){    
     if (selectedReadDirection == 'L') {
-        console.log("possible paths 1,2")
         let actionSolutionLinksLesendLinksFixierend = solutionPath1.find((step) => step.step === currentPathStep + 1).action;
         let actionSolutionLinksLesendRechtsFixierend = solutionPath2.find((step) => step.step === currentPathStep + 1).action;
 
@@ -1383,8 +1381,6 @@ function setFixDirection(performedAction){
         return false;
     }
     if (selectedReadDirection == 'R') {
-        
-        console.log("possible paths 3,4")
         let actionSolutionRechtsLesendLinksFixierend = solutionPath3.find((step) => step.step === currentPathStep + 1).action;
         let actionSolutionRechtsLesendRechtsFixierend = solutionPath4.find((step) => step.step === currentPathStep + 1).action;
 
@@ -1424,6 +1420,7 @@ function compareAction(solutionAction, performedAction) {
  * @returns {String} response of current step in selected solution path
  */
 function setValidFeedbackMessage(solutionPath) {
+    console.log("currentPathStep: " + currentPathStep)
     switch (solutionPath) {
         case 1:
             feedbackMessage = responses[solutionPath1.find((solStep) => solStep.step === currentPathStep).response]

@@ -1,8 +1,8 @@
 <template>
     <div class="feedback-field">
     <p>{{ feedbackMessage }}</p>
-    <p>{{ lastActionValid }}</p>
-    <p>{{ action }}</p>
+    <div style="font-weight: bold">Was last performed action valid?</div><div>{{ lastActionValid }}</div>
+    <div style="font-weight: bold">Last valid action:</div><div>{{ action }}</div>
 
     <button v-if="!lastActionValid">Letzen Schritt rückgängig machen</button>
   </div>
