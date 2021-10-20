@@ -1425,7 +1425,6 @@ function compareAction(solutionAction, performedAction) {
  * @returns {String} response of current step in selected solution path
  */
 function setValidFeedbackMessage(solutionPath) {
-    console.log("currentPathStep: " + currentPathStep)
     switch (solutionPath) {
         case 1:
             feedbackMessage = responses[solutionPath1.find((solStep) => solStep.step === currentPathStep).response]

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import logJson from "../data/log.json"
+import logJson from "../../data/log.json"
 
 export default {
   data() {

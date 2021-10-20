@@ -13,36 +13,15 @@
           @finish-intro="setIntroFinished"
         ></Intro>
       </div>
-
-      <!--<div v-if="true" class="cards-container"><Assignment></Assignment></div> -->
       <div class="assignment-container" v-if="showAssignment">
-        <AssignmentV2
+        <Assignment
           @card-fixed="increaseFixActions"
           @card-read="increaseReadActions"
           @card-saved="increaseSaveActions"
           @card-swap="increaseSwapActions"
-        ></AssignmentV2>
+        ></Assignment>
       </div>
     </div>
-    <!--
-    <div v-if="true" class="cards-container">
-      <draggable
-      v-model="cardList"
-        @start="dragStart"
-        @end="dragEnd"
-        item-key="id"        
-      >
-        <template #item="{ element }">
-          <Card
-            class="card"
-            :number="numbers[element.id]"
-            @cardFixed="increaseFixActions"
-            @cardRead="increaseReadActions"
-            @cardSaved="increaseSaveActions"
-          ></Card>
-        </template>
-      </draggable>
-    </div>-->
     <div class="debugArea">
       <div>Lesen: {{ readActions }}</div>
       <div>Merken: {{ saveActions }}</div>
@@ -61,10 +40,9 @@
 
 <script>
 import Header from "./components/Header.vue";
-import Intro from "./components/Intro.vue";
+import Intro from "./components/Tutorial/Intro.vue";
 import Assignment from "./components/Assignment.vue";
-import AssignmentV2 from "./components/AssignmentV2.vue";
-import Log from "./components/Log.vue";
+import Log from "./components/unused/Log.vue";
 
 export default {
   name: "App",
@@ -72,7 +50,6 @@ export default {
     Header,
     Intro,
     Assignment,
-    AssignmentV2,
     Log,
   },
   data() {
