@@ -1288,7 +1288,6 @@ var feedbackMessage = "";
  */
 export function actionPerformed(action) {
     let validActionPerformed = checkIfValidAction(action);
-    setValidFeedbackMessage();
 
     if (!validActionPerformed) {
         //TODO: handle invalid action
@@ -1305,9 +1304,6 @@ export function actionPerformed(action) {
  * @returns {Boolean} true if action is valid or false if action is invalid
  */
 function checkIfValidAction(performedAction) {
-
-    console.log("before: read direction " + selectedReadDirection + "; fix direction " + selectedFixDirection)
-
     let validStep = false;
 
     if (!selectedReadDirection) {
@@ -1316,7 +1312,6 @@ function checkIfValidAction(performedAction) {
     } else if (selectedReadDirection && !selectedFixDirection) {
         // read direction is set; fix direction not set ==> step 2-4
         validStep = setFixDirection(performedAction);
-
     } else if (selectedReadDirection && selectedFixDirection) {
         // read direction and fix direction are set ==> step 4+
         if (selectedReadDirection == 'L') {
@@ -1340,12 +1335,16 @@ function checkIfValidAction(performedAction) {
                 setValidFeedbackMessage(4);
             }
         }
-        validStep = false;
     }
-    console.log("after: read direction " + selectedReadDirection + "; fix direction " + selectedFixDirection)
     return validStep
 }
 
+/**
+ * Checks the action performed by the user and compares it with the solution paths to determine the reading direction. 
+ * If a the performed action is valid the reading direction is set to left reading or right reading.
+ * @param {Object} performedAction action performed by the user
+ * @returns true if performedAction is valid or false if performedAction is invalid
+ */
 function setReadDirection(performedAction){
     let actionSolutionLinksLesend = solutionPath1.find((step) => step.step === currentPathStep + 1).action;
     let actionSolutionRechtsLesend = solutionPath3.find((step) => step.step === currentPathStep + 1).action;
@@ -1363,6 +1362,12 @@ function setReadDirection(performedAction){
     return false;
 }
 
+/**
+ * Checks the action performed by the user and compares it with the solution paths to determine the fix direction. 
+ * If a the performed action is valid and currentPathStep is >= 4 (step that determines the fixing direction) the fix direction is set to left fixing or right fixing.
+ * @param {Object} performedAction action performed by the user
+ * @returns true if performedAction is valid or false if performedAction is invalid
+ */
 function setFixDirection(performedAction){    
     if (selectedReadDirection == 'L') {
         let actionSolutionLinksLesendLinksFixierend = solutionPath1.find((step) => step.step === currentPathStep + 1).action;
