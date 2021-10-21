@@ -8,7 +8,7 @@
         @dragover.prevent
         @dragenter.prevent
       >
-        <div class="fixieren-container" @click="fixCard(card.id)">
+        <div class="fixieren-container" @click="fixCard(card.id, true)">
           <p class="fix unselectable">FIX</p>
         </div>
 
@@ -25,14 +25,14 @@
           <div
             class="btn unselectable"
             :class="{ cardLesen: card.lesenActive }"
-            @click="readCard(card.id)"
+            @click="readCard(card.id, true)"
           >
             Lesen
           </div>
           <div
             class="btn unselectable"
             :class="{ cardMerken: card.merkenActive }"
-            @click="saveCard(card.id)"
+            @click="saveCard(card.id, true)"
           >
             Merken
           </div>
@@ -44,7 +44,6 @@
   <FeedbackField
     :feedbackMessage="feedbackMessage"
     :lastActionValid="lastActionValid"
-    :action="lastAction"
     @undo-clicked="undoLastAction"
   >
   </FeedbackField>
@@ -107,6 +106,8 @@ export default {
       feedbackMessage: "",
       lastActionValid: true,
       lastAction: null,
+      lastValidReadCardId: 0,
+      lastValidSaveCardId: 0,
     };
   },
   methods: {
@@ -129,16 +130,16 @@ export default {
       this.unsaveCards();
       this.$emit("card-swap");
     },
-    fixCard(cardId) {
+    fixCard(cardId, trackAction) {
       const card = this.getCard(cardId);
-      this.performAction("F", cardId, null);
+      if (trackAction) this.performAction("F", cardId, null);
       card.fixActive = !card.fixActive;
       this.$emit("card-fixed");
     },
-    readCard(cardId) {
+    readCard(cardId, trackAction) {
       const card = this.getCard(cardId);
       this.unreadCards();
-      this.performAction("L", cardId, null);
+      if (trackAction) this.performAction("L", cardId, null);
       card.lesenActive = !card.lesenActive; // lesenActive umkehren
       this.flipCard(card); // karte umdrehen
       this.$emit("card-read");
@@ -151,18 +152,10 @@ export default {
         }
       });
     },
-    saveCard(cardId) {
+    saveCard(cardId, trackAction) {
       const card = this.getCard(cardId);
       this.unsaveCards();
-      if (!card.merkenActive) {
-        // karte wird nicht gelesen
-        this.performAction("M", cardId, null);
-      } else {
-        //karte wird bereits gemerkt --> nicht erfassen?
-        // TODO: what happens when card is already saved
-        this.feedbackMessage = "Bereits gemerkte karte wird wieder umgedreht";
-      }
-
+      if (trackAction) this.performAction("M", cardId, null);
       card.merkenActive = !card.merkenActive;
       this.flipCard(card);
       this.$emit("card-saved");
@@ -184,22 +177,29 @@ export default {
     },
     performAction(tool, card1, card2) {
       let action = { tool: tool, card1: card1, card2: card2 }; //create action
+      this.lastAction = action;
+
       if (sorting.actionPerformed(action)) {
         //valid action
         this.lastActionValid = true;
-        this.lastAction = action;
+        this.lastAction = action; //TODO: delete when updated
+        //set last valid read or save action
+        if (action.tool === "L") this.lastValidReadCardId = action.card1;
+        else if (action.tool === "M") this.lastValidSaveCardId = action.card1;
+
       } else {
+        //TODO: lock all further edits until last action is undone
         this.lastActionValid = false;
       }
       //set feedbackMessage
       this.feedbackMessage = sorting.getFeedbackMessage();
     },
     undoLastAction() {
-      if(!this.lastAction){
+      /*
+      if (!this.lastAction) {
         //no first valid action performed --> last valid action not set
         return;
       }
-
       switch (this.lastAction.tool) {
         case "L":
           this.readCard(this.lastAction.card1);
@@ -216,6 +216,25 @@ export default {
           return;
         default:
           throw new Error("UNDEFINED: Undo action not known!");
+          
+      }*/
+      switch (this.lastAction.tool) {
+        case "L":
+          this.readCard(this.lastValidReadCardId, false)
+          return;
+        case "M":
+          this.saveCard(this.lastValidSaveCardId, false);
+          return;
+        case "F":
+          //TODO
+          return;
+        case "T":
+          //TODO: implement undo card swap
+          console.log("TODO");
+          return;
+        default:
+          throw new Error("UNDEFINED: Undo action not known!");
+          
       }
     },
   },

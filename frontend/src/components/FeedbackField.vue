@@ -1,8 +1,6 @@
 <template>
     <div class="feedback-field">
     <p>{{ feedbackMessage }}</p>
-    <div style="font-weight: bold">Was last performed action valid?</div><div>{{ lastActionValid }}</div>
-    <div style="font-weight: bold">Last valid card list:</div><div>{{ action }}</div>
 
     <button v-if="!lastActionValid" @click="undoLastAction">Letzen Schritt rückgängig machen</button>
   </div>
@@ -13,7 +11,6 @@ export default {
   props: {
     feedbackMessage: String, 
     lastActionValid: Boolean,
-    action: Object,
   },
   emits: ["undo-clicked"],
   data() {
