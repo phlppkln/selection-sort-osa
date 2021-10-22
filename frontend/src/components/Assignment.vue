@@ -105,10 +105,11 @@ export default {
       grabbedCard: null,
       feedbackMessage: "",
       lastActionValid: true,
-      lastAction: null,
-      lastValidReadCardId: 0,
-      lastValidSaveCardId: 0,
+      lastValidCardList: null,  
     };
+  },
+  mounted(){
+    this.lastValidCardList = this.cardList.map(el => {return {...el}});
   },
   methods: {
     getCard(cardId) {
@@ -130,18 +131,18 @@ export default {
       this.unsaveCards();
       this.$emit("card-swap");
     },
-    fixCard(cardId, trackAction) {
+    fixCard(cardId) {
       const card = this.getCard(cardId);
-      if (trackAction) this.performAction("F", cardId, null);
       card.fixActive = !card.fixActive;
+      this.performAction("F", cardId, null);
       this.$emit("card-fixed");
     },
-    readCard(cardId, trackAction) {
+    readCard(cardId) {
       const card = this.getCard(cardId);
       this.unreadCards();
-      if (trackAction) this.performAction("L", cardId, null);
       card.lesenActive = !card.lesenActive; // lesenActive umkehren
       this.flipCard(card); // karte umdrehen
+      this.performAction("L", cardId, null);
       this.$emit("card-read");
     },
     unreadCards() {
@@ -152,12 +153,12 @@ export default {
         }
       });
     },
-    saveCard(cardId, trackAction) {
+    saveCard(cardId) {
       const card = this.getCard(cardId);
       this.unsaveCards();
-      if (trackAction) this.performAction("M", cardId, null);
       card.merkenActive = !card.merkenActive;
       this.flipCard(card);
+      this.performAction("M", cardId, null);
       this.$emit("card-saved");
     },
     unsaveCards() {
@@ -177,16 +178,11 @@ export default {
     },
     performAction(tool, card1, card2) {
       let action = { tool: tool, card1: card1, card2: card2 }; //create action
-      this.lastAction = action;
 
       if (sorting.actionPerformed(action)) {
         //valid action
         this.lastActionValid = true;
-        this.lastAction = action; //TODO: delete when updated
-        //set last valid read or save action
-        if (action.tool === "L") this.lastValidReadCardId = action.card1;
-        else if (action.tool === "M") this.lastValidSaveCardId = action.card1;
-
+        this.lastValidCardList = this.cardList.map(el => {return {...el}});
       } else {
         //TODO: lock all further edits until last action is undone
         this.lastActionValid = false;
@@ -195,47 +191,9 @@ export default {
       this.feedbackMessage = sorting.getFeedbackMessage();
     },
     undoLastAction() {
-      /*
-      if (!this.lastAction) {
-        //no first valid action performed --> last valid action not set
-        return;
-      }
-      switch (this.lastAction.tool) {
-        case "L":
-          this.readCard(this.lastAction.card1);
-          return;
-        case "M":
-          this.saveCard(this.lastAction.card1);
-          return;
-        case "F":
-          this.fixCard(this.lastAction.card1);
-          return;
-        case "T":
-          //TODO: implement undo card swap
-          console.log("TODO");
-          return;
-        default:
-          throw new Error("UNDEFINED: Undo action not known!");
-          
-      }*/
-      switch (this.lastAction.tool) {
-        case "L":
-          this.readCard(this.lastValidReadCardId, false)
-          return;
-        case "M":
-          this.saveCard(this.lastValidSaveCardId, false);
-          return;
-        case "F":
-          //TODO
-          return;
-        case "T":
-          //TODO: implement undo card swap
-          console.log("TODO");
-          return;
-        default:
-          throw new Error("UNDEFINED: Undo action not known!");
-          
-      }
+      this.cardList = this.lastValidCardList.map(el => {return {...el}});
+      this.lastActionValid = true;
+      this.feedbackMessage = "letzten ungültigen Schritt erfolgreich rückgängig gemacht";
     },
   },
 };
@@ -316,6 +274,5 @@ export default {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  border: 1px solid green;
 }
 </style>
