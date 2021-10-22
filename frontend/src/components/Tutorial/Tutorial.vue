@@ -182,6 +182,7 @@
       </div>
     </div>
 
+    <div class="navigation-container">
     <div class="navigation">
       <div class="prev" @click="previousPage">&#10094;</div>
       <span class="page-number">{{ pageNumber }}</span>
@@ -193,6 +194,7 @@
     </div>
     <div @click="skipTutorial" class="skip-tutorial">
       Einführung überspringen
+    </div>
     </div>
   </div>
 </template>
@@ -316,12 +318,21 @@ export default {
 }
 
 /* ----- NAVIGATION ------ */
+.navigation-container{
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+}
+
 .navigation {
+  flex: 0 1 auto;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  background-color: green;
 }
 
 .prev,
@@ -354,8 +365,8 @@ export default {
 
 .skip-tutorial {
   cursor: pointer;
-  justify-content: right;
-  border: 1px solid black;
+  flex: 0 1 auto;
+  margin-left: auto;
 }
 
 .skip-tutorial:hover {
