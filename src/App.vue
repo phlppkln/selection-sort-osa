@@ -22,7 +22,7 @@
         ></Assignment>
       </div>
     </div>
-    <div class="debugArea" v-if="false">
+    <div class="debugArea" v-if="true">
       <div>Lesen: {{ readActions }}</div>
       <div>Merken: {{ saveActions }}</div>
       <div>Fixieren: {{ fixActions }}</div>
