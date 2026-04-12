@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: '/OSA_Sortierbeispiel/'
-  }
+  publicPath: process.env.NODE_ENV === "production" ? "/selection-sort-osa/" : "/",
+};

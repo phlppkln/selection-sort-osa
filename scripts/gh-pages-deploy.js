@@ -1,5 +1,9 @@
 /* eslint-disable no-console */
-const execa = require("execa");
+const execaModule = require("execa");
+const execa =
+  typeof execaModule === "function"
+    ? execaModule
+    : execaModule.execa;
 const fs = require("fs");
 (async () => {
   try {
@@ -14,9 +18,9 @@ const fs = require("fs");
     console.log("Pushing to gh-pages...");
     await execa("git", ["push", "origin", "HEAD:gh-pages", "--force"]);
     console.log("Pushed to gh-pages...")
-    await execa("del", ["-r", folderName]);
+    fs.rmSync(folderName, { recursive: true, force: true });
     console.log("dist folder deleted...")
-    await execa("git", ["checkout", "-f", "main"]);
+    await execa("git", ["checkout", "main"]);
     console.log("Successfully checkout of main branch...")
     await execa("git", ["branch", "-D", "gh-pages"]);
     console.log("gh-pages branch deleted...")
